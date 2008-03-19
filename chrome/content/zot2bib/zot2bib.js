@@ -1,6 +1,8 @@
 Zotero.Zot2Bib = {
   DB: null,
 
+  own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir().path,
+
   init: function () {
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, ['item']);
@@ -11,7 +13,7 @@ Zotero.Zot2Bib = {
 
   chooseFile: function() {
 
-    alert(Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir().path);
+    alert(this.own_path);
 
     const nsIFilePicker = Components.interfaces.nsIFilePicker;
     const nsIPrefService = Components.interfaces.nsIPrefService;
