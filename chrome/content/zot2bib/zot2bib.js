@@ -1,7 +1,7 @@
 Zotero.Zot2Bib = {
   DB: null,
 
-  own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir().path,
+  own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
 
   init: function () {
     // Register the callback in Zotero as an item observer
@@ -13,7 +13,8 @@ Zotero.Zot2Bib = {
 
   chooseFile: function() {
 
-    alert(this.own_path);
+    var applescript = this.own_path.append('zot2bib.scpt');
+    alert(applescript.path);
 
     const nsIFilePicker = Components.interfaces.nsIFilePicker;
     const nsIPrefService = Components.interfaces.nsIPrefService;
@@ -55,6 +56,8 @@ Zotero.Zot2Bib = {
         translator.setTranslator(translator.getTranslators()[2]); // BibTeX
         translator.setItems([item]);
         translator.setLocation(file);
+
+
 
         translator.setHandler('done', function() {
           var scriptsource = 'set theDocFile to POSIX file "' + prefs.getCharPref('bibfile') + '"\nset thePubFile to POSIX file "' + file.path + '"\ntell application "BibDesk"\nactivate\nopen theDocFile\nset theDoc to document (name of (info for theDocFile)) -- note that if a file of the same name is already open, this may not select the right one\ntell theDoc\nset readFile to open for access thePubFile\nset pubData to read readFile as string\nclose access readFile\nset newPub to make new publication at the end of publications\nset BibTeX string of newPub to pubData\nset cite key of newPub to generated cite key of newPub\nshow newPub\nend tell\nend tell';
