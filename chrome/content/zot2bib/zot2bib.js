@@ -12,10 +12,6 @@ Zotero.Zot2Bib = {
   },
 
   chooseFile: function() {
-
-    var applescript = this.own_path.append('zot2bib.scpt');
-    alert(applescript.path);
-
     const nsIFilePicker = Components.interfaces.nsIFilePicker;
     const nsIPrefService = Components.interfaces.nsIPrefService;
 
@@ -57,16 +53,16 @@ Zotero.Zot2Bib = {
         translator.setItems([item]);
         translator.setLocation(file);
 
-
-
         translator.setHandler('done', function() {
-          var scriptsource = 'set theDocFile to POSIX file "' + prefs.getCharPref('bibfile') + '"\nset thePubFile to POSIX file "' + file.path + '"\ntell application "BibDesk"\nactivate\nopen theDocFile\nset theDoc to document (name of (info for theDocFile)) -- note that if a file of the same name is already open, this may not select the right one\ntell theDoc\nset readFile to open for access thePubFile\nset pubData to read readFile as string\nclose access readFile\nset newPub to make new publication at the end of publications\nset BibTeX string of newPub to pubData\nset cite key of newPub to generated cite key of newPub\nshow newPub\nend tell\nend tell';
+          // var scriptsource = 'set theDocFile to POSIX file "' + prefs.getCharPref('bibfile') + '"\nset thePubFile to POSIX file "' + file.path + '"\ntell application "BibDesk"\nactivate\nopen theDocFile\nset theDoc to document (name of (info for theDocFile)) -- note that if a file of the same name is already open, this may not select the right one\ntell theDoc\nset readFile to open for access thePubFile\nset pubData to read readFile as string\nclose access readFile\nset newPub to make new publication at the end of publications\nset BibTeX string of newPub to pubData\nset cite key of newPub to generated cite key of newPub\nshow newPub\nend tell\nend tell';
+
+          var script_path = this.own_path.path + '/zot2bib.scpt';
 
           var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
           osascript.initWithPath("/usr/bin/osascript");
           var process = Components.classes["@mozilla.org/process/util;1"].createInstance(nsIProcess);
           process.init(osascript);
-          var args = ["-e", scriptsource];
+          var args = [script_path, prefs.getCharPref('bibfile'), file.path];
           process.run(false, args, args.length); // first param true => calling thread will be blocked until called process terminates
         });
 
