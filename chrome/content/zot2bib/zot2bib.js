@@ -1,5 +1,4 @@
 Zotero.Zot2Bib = {
-  DB: null,
 
   own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
 
@@ -40,30 +39,31 @@ Zotero.Zot2Bib = {
         var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
         if (! prefs.prefHasUserValue('bibfile')) return;
 
-        var items = Zotero.Items.get(ids);
-        var item = items[0];
-        if (! item.isRegularItem() || (! item.getCreator(0) && ! item.getField('title'))) return;
+        for (var i = 0; i < items.length; i ++) {
+          var item = items[i];
+          if (! item.isRegularItem() || (! item.getCreator(0) && ! item.getField('title'))) continue;
 
-        var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", nsIFile);
-        file.append("zotero_item_" + item.id + ".bib");
-        file.createUnique(nsIFile.NORMAL_FILE_TYPE, 0666);
+          var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", nsIFile);
+          file.append("zotero_item_" + item.id + ".bib");
+          file.createUnique(nsIFile.NORMAL_FILE_TYPE, 0666);
 
-        var translator = new Zotero.Translate('export');
-        translator.setTranslator('9cb70025-a888-4a29-a210-93ec52da40d4'); // BibTeX
-        translator.setItems([item]);
-        translator.setLocation(file);
+          var translator = new Zotero.Translate('export');
+          translator.setTranslator('9cb70025-a888-4a29-a210-93ec52da40d4'); // BibTeX
+          translator.setItems([item]);
+          translator.setLocation(file);
 
-        translator.setHandler('done', function() {
-          var script_path = Zotero.Zot2Bib.own_path.path + '/zot2bib.scpt';
-          var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
-          osascript.initWithPath("/usr/bin/osascript");
-          var process = Components.classes["@mozilla.org/process/util;1"].createInstance(nsIProcess);
-          process.init(osascript);
-          var args = [script_path, prefs.getCharPref('bibfile'), file.path];
-          process.run(false, args, args.length); // first param true => calling thread will be blocked until called process terminates
-        });
+          translator.setHandler('done', function() {
+            var script_path = Zotero.Zot2Bib.own_path.path + '/zot2bib.scpt';
+            var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
+            osascript.initWithPath("/usr/bin/osascript");
+            var process = Components.classes["@mozilla.org/process/util;1"].createInstance(nsIProcess);
+            process.init(osascript);
+            var args = [script_path, prefs.getCharPref('bibfile'), file.path];
+            process.run(true, args, args.length); // first param true => calling thread will be blocked until called process terminates
+          });
 
-        translator.translate();
+          translator.translate();
+        }
       }
     }
   }
