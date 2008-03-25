@@ -15,10 +15,13 @@
         id="z2b-panel"
         class="statusbarpanel-menu-iconic"
         src="chrome://zot2bib/skin/z2b.png"
-        insertbefore="zotero-status-bar-icon"
         tooltiptext="Zotero-to-BibDesk auto-export plug-in">
-      <menupopup id="z2b-popup" position="before_end">
-        <menuitem id="z2b-choose-menu" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
+      <menupopup position="before_end" id="z2b-menu">
+        <menuitem label="Add new Zotero items to..." disabled="true"/>
+        <menuitem id="z2b-prefs" label="(None)" type="radio" name="z2b-bib-file" checked="true"/>
+        <menuseparator/>
+        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.chooseFile()"/>
+        <menuitem id="z2b-about" label="About Zot2Bib"/>
       </menupopup>
     </statusbarpanel>
   </statusbar>
