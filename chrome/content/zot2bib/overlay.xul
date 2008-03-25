@@ -10,16 +10,22 @@
     <menuitem insertbefore="zotero-tb-actions-separator" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
   </menupopup>
 
+  <popupset>
+    <menupopup id="z2b-popup" position="before_end">
+      <menuitem id="z2b-choose-menu" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
+    </menupopup>
+  </popupset>
   <statusbar id="status-bar">
-    <statusbarpanel id="z2b_panel"
-    label="Z2B"
-    insertafter="zotero-status-bar-icon"
-    tooltiptext="Zotero-to-BibDesk auto-export plug-in">
-      <menupopup orient="horizontal" position="before_start">
-        <menuitem id="z2b_prefs_menu" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
-      </menupopup>
-    </statusbarpanel>
+    <statusbarpanel
+      id="z2b-panel"
+      label="Z2B"
+      insertafter="zotero-status-bar-icon"
+      popup="z2b-popup"
+      context="z2b-popup"
+      tooltiptext="Zotero-to-BibDesk auto-export plug-in"/>
   </statusbar>
+
+
 
   <!-- Include the main extension logic -->
   <script src="chrome://zotero/content/include.js"/>
