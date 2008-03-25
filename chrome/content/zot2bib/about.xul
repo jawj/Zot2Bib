@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
 
-<dialog buttons="accept" id="zot2bib-about-dialog" ondialogaccept="useragentswitcher_saveOptions()" title="About Zot2Bib" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:h="http://www.w3.org/1999/xhtml">
+<dialog
+    buttons="accept"
+    id="zot2bib-about-dialog"
+    title="About Zot2Bib"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:h="http://www.w3.org/1999/xhtml">
 
   <hbox>
     <description flex="1">
