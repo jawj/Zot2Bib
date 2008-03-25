@@ -18,7 +18,6 @@
   <statusbar id="status-bar">
     <statusbarpanel
       id="z2b-panel"
-      class="statusbarpanel-menu-iconic"
       label="Z2B"
       popup="z2b-popup"
       context="z2b-popup"
