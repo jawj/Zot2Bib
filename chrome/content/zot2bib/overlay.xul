@@ -7,9 +7,19 @@
   <menupopup id="zotero-tb-actions-popup">
     <!-- Make sure the menu separator for utilities is visible -->
     <menuseparator id="zotero-tb-actions-utilities-separator" hidden="false"/>
-    <menuitem insertbefore="zotero-tb-actions-separator" label="&zot2bib.name;"
-      oncommand="Zotero.Zot2Bib.chooseFile()"/>
+    <menuitem insertbefore="zotero-tb-actions-separator" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
   </menupopup>
+
+  <statusbar id="status-bar">
+    <statusbarpanel id="z2b_panel"
+    label="Z2B"
+    insertafter="zotero-status-bar-icon"
+    tooltiptext="Zotero-to-BibDesk auto-export plug-in">
+      <menupopup orient="horizontal" position="before_start">
+        <menuitem id="z2b_prefs_menu" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
+      </menupopup>
+    </statusbarpanel>
+  </statusbar>
 
   <!-- Include the main extension logic -->
   <script src="chrome://zotero/content/include.js"/>
