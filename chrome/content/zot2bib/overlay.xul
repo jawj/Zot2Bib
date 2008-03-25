@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://zot2bib/skin/overlay.css" type="text/css"?>
-<!DOCTYPE overlay SYSTEM "chrome://zot2bib/locale/zot2bib.dtd">
+<!DOCTYPE window SYSTEM "chrome://zot2bib/locale/zot2bib.dtd">
 
 <overlay id="zot2bib-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
@@ -18,11 +18,14 @@
   <statusbar id="status-bar">
     <statusbarpanel
       id="z2b-panel"
-      label="Z2B"
+      class="statusbarpanel-menu-iconic"
+      src="chrome://zot2bib/skin/z2b.png"
+      insertafter="zotero-status-bar-icon"
       popup="z2b-popup"
       context="z2b-popup"
       tooltiptext="Zotero-to-BibDesk auto-export plug-in"/>
   </statusbar>
+
 
   <!-- Include the main extension logic -->
   <script src="chrome://zotero/content/include.js"/>
