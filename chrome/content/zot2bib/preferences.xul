@@ -5,10 +5,11 @@
     id="zot2bib-prefs-dialog"
     ondialogaccept="useragentswitcher_saveOptions()"
     title="Zot2Bib preferences"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    xmlns:h="http://www.w3.org/1999/xhtml">
 
   <groupbox>
-    <caption label="Auto-export destination BibTeX files"/>
+    <caption label="Auto-export destinations"/>
     <grid>
       <columns>
         <column flex="1"/>
@@ -16,14 +17,14 @@
       </columns>
       <rows>
         <row align="top">
-          <listbox flex="1" id="useragentswitcher-listbox" rows="5" onselect="parent.useragentswitcher_userAgentBoxSelected()">
+          <listbox flex="1" id="zot2bib-listbox" rows="6" onselect="parent.useragentswitcher_userAgentBoxSelected()">
             <listhead>
               <listheader label=".bib files"/>
             </listhead>
           </listbox>
           <vbox>
-            <button id="useragentswitcher-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
-            <button id="useragentswitcher-move-down" label="Move down" oncommand="parent.useragentswitcher_moveDown()"/>
+            <button id="zot2bib-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
+            <button id="zot2bib-move-down" label="Move down" oncommand="parent.useragentswitcher_moveDown()"/>
           </vbox>
         </row>
         <row align="top">

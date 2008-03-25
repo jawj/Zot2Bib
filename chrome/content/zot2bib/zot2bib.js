@@ -2,12 +2,21 @@ Zotero.Zot2Bib = {
 
   own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
 
-  init: function () {
+  init: function() {
     // Register the callback in Zotero as an item observer
     var notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, ['item']);
 
     // Unregister callback when the window closes (important to avoid a memory leak)
     window.addEventListener('unload', function(e) { Zotero.Notifier.unregisterObserver(notifierID); }, false);
+  },
+
+
+  about: function() {
+    window.openDialog("chrome://zot2bib/content/about.xul", "zot2bib-about-dialog", "centerscreen,chrome,modal");
+  },
+
+  preferences: function() {
+    window.openDialog("chrome://zot2bib/content/preferences.xul", "zot2bib-preferences-dialog", "centerscreen,chrome,modal");
   },
 
   chooseFile: function() {

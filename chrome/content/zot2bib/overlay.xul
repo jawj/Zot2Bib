@@ -18,10 +18,11 @@
         tooltiptext="Zotero-to-BibDesk auto-export plug-in">
       <menupopup position="before_end" id="z2b-menu">
         <menuitem label="Add new Zotero items to..." disabled="true"/>
+        <menuitem id="z2b-add-none" label="all.bib" type="radio" name="z2b-bib-file"/>
         <menuitem id="z2b-add-none" label="(None)" type="radio" name="z2b-bib-file" checked="true"/>
         <menuseparator/>
-        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.chooseFile()"/>
-        <menuitem id="z2b-about" label="About Zot2Bib"/>
+        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.preferences();"/>
+        <menuitem id="z2b-about" label="About Zot2Bib" oncommand="Zotero.Zot2Bib.about();"/>
       </menupopup>
     </statusbarpanel>
   </statusbar>
