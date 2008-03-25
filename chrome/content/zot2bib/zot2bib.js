@@ -39,6 +39,8 @@ Zotero.Zot2Bib = {
         var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
         if (! prefs.prefHasUserValue('bibfile')) return;
 
+        var items = Zotero.Items.get(ids);
+
         for (var i = 0; i < items.length; i ++) {
           var item = items[i];
           if (! item.isRegularItem() || (! item.getCreator(0) && ! item.getField('title'))) continue;

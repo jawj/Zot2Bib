@@ -11,8 +11,10 @@
     <em:type>2</em:type> <!-- type=extension -->
     <em:targetPlatform>Darwin</em:targetPlatform>
     <em:homepageURL>http://mackerron.com/</em:homepageURL>
+    <!--
     <em:updateURL>http://mackerron.com/zot2bib/update.rdf</em:updateURL>
     <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDalver8LmoS3vX9Y4ul54g+z3kzRIh7m7CqmCkDZisV5oi9+xd4p8XCEmmbTPksLvx881aAFdvTaYENcjbyQZ9oFdnLs25TQRA/dDrfPET64x6JS/UrY1lXfsETsgtGASN1orXeW/ohnRMjoaixjYMK+9Z1zJmeC+g1f3T9VyKIwIDAQAB</em:updateKey>
+    -->
 
     <!-- Requires Zotero -->
     <em:requires>
