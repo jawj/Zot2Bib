@@ -9,13 +9,13 @@
     xmlns:h="http://www.w3.org/1999/xhtml">
 
   <hbox>
-    <image src="chrome://zot2bib/skin/z2b_large.png" />
     <description flex="1">
       <h:h1>Zot2Bib 2.0</h:h1>
       <h:p>The Zotero-to-BibDesk auto-export extension</h:p>
       <h:p><h:b>Creator</h:b><h:br/>George MacKerron</h:p>
       <h:p><h:a target="_new" href="http://mackerron.com/">http://mackerron.com/</h:a></h:p>
     </description>
+    <image style="margin-left: 1em; width: 93px; height: 55px;" src="chrome://zot2bib/skin/z2b_large.png" />
   </hbox>
 
 </dialog>
