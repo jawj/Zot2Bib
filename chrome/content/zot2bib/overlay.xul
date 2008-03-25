@@ -18,13 +18,13 @@
   <statusbar id="status-bar">
     <statusbarpanel
       id="z2b-panel"
+      class="statusbarpanel-menu-iconic"
       label="Z2B"
       insertafter="zotero-status-bar-icon"
       popup="z2b-popup"
       context="z2b-popup"
       tooltiptext="Zotero-to-BibDesk auto-export plug-in"/>
   </statusbar>
-
 
 
   <!-- Include the main extension logic -->
