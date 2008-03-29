@@ -12,7 +12,7 @@ Zotero.Zot2Bib = {
 
 
   about: function() {
-    window.openDialog("chrome://zot2bib/content/about.xul", "zot2bib-about-dialog", "centerscreen,chrome,modal");
+    window.open("chrome://zot2bib/content/about.xul", "zot2bib-about-dialog", "centerscreen,chrome");
   },
 
   preferences: function() {
