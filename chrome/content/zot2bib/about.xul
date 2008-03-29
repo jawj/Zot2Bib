@@ -3,22 +3,20 @@
 
 <window
     id="zot2bib-about-dialog"
-    title="About Zot2Bib"
+    orient="vertical"
+    align="center"
+    style="padding: 1em 3em;"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     xmlns:h="http://www.w3.org/1999/xhtml">
 
-  <vbox>
-    <image style="margin-left: 1em; width: 93px; height: 55px;" src="chrome://zot2bib/skin/z2b_large.png" />
-    <description flex="1">
-      <h:h1>Zot2Bib 2.0</h:h1>
-      <h:p>The Zotero-to-BibDesk auto-export extension</h:p>
-      <h:p>
-        <h:b>Creator</h:b>
-        <h:br/>George MacKerron</h:p>
-      <h:p>
-        <h:a target="_new" href="http://mackerron.com/">http://mackerron.com/</h:a>
-      </h:p>
+    <hbox>
+      <image src="chrome://zot2bib/skin/z2b_large.png"/>
+    </hbox>
+    <description flex="1" style="text-align: center;">
+      <h:h2>Zot2Bib</h:h2>
+      <h:p>Version 1.1</h:p>
+      <h:p><h:a target="_new" href="http://mackerron.com/" style="color: #0000ff;">http://mackerron.com/</h:a></h:p>
+      <h:p>Copyright &#169; 2008 George MacKerron<h:br/>All rights reserved</h:p>
     </description>
-  </vbox>
 
 </window>
