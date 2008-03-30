@@ -10,7 +10,7 @@
     <em:creator>George MacKerron</em:creator>
     <em:type>2</em:type> <!-- type=extension -->
     <em:targetPlatform>Darwin</em:targetPlatform>
-    <em:aboutURL>chrome://zot2bib/content/about.xul</em:aboutURL>
+    <em:aboutURL>chrome://zot2bib/content/about_dialog.xul</em:aboutURL>
     <em:optionsURL>chrome://zot2bib/content/preferences.xul</em:optionsURL>
     <em:iconURL>chrome://zot2bib/skin/z2b_icon.png</em:iconURL>
     <em:homepageURL>http://mackerron.com/</em:homepageURL>
