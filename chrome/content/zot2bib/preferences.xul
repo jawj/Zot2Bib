@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
 
-<dialog buttons="accept, cancel"
+<window
     id="zot2bib-prefs-dialog"
     ondialogaccept="useragentswitcher_saveOptions()"
     title="Zot2Bib preferences"
@@ -44,4 +44,4 @@
     </vbox>
   </groupbox>
 
-</dialog>
+</window>
