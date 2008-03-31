@@ -69,8 +69,17 @@ Zotero.Zot2Bib = {
             osascript.initWithPath("/usr/bin/osascript");
             var process = Components.classes["@mozilla.org/process/util;1"].createInstance(nsIProcess);
             process.init(osascript);
-            var args = [script_path, prefs.getCharPref('bibfile'), file.path];
-            process.run(true, args, args.length); // first param true => calling thread will be blocked until called process terminates
+
+            var openpub = prefs.prefHasUserValue('openpub') && prefs.getBoolPref('openpub') ? 'true' : 'false';
+            var bringtofront = prefs.prefHasUserValue('bringtofront') && prefs.getBoolPref('bringtofront') ? 'true' : 'false';
+            var extrabraces = prefs.prefHasUserValue('extrabraces') && prefs.getBoolPref('extrabraces') ? 'true' : 'false';
+
+            var args = [script_path, prefs.getCharPref('bibfile'), file.path, openpub, bringtofront, extrabraces];
+            process.run(false, args, args.length); // first param true => calling thread will be blocked until called process terminates
+
+            if (prefs.prefHasUserValue('Zoteroerase') && prefs.getBoolPref('Zoteroerase')) {
+              Zotero.Items.erase([item.id], true); // second param true => delete item's children too
+            }
           });
 
           translator.translate();

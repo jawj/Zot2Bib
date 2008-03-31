@@ -46,11 +46,12 @@
     <groupbox>
       <caption label="When exporting a publication..."/>
       <vbox>
-        <checkbox id="z2b-chk-Zotero-erase" preference="z2b-pref-Zotero-erase" label="Delete from the Zotero database"/>
-        <checkbox id="z2b-chk-extra-braces" preference="z2b-pref-extra-braces" label="Add extra braces around the Title field (preserves capitalisation)"/>
+        <checkbox id="z2b-chk-Zotero-erase" preference="z2b-pref-Zotero-erase" label="Remove it from the Zotero database"/>
         <checkbox id="z2b-chk-open-pub" preference="z2b-pref-open-pub" label="Open it for editing in BibDesk"/>
+        <checkbox id="z2b-chk-extra-braces" preference="z2b-pref-extra-braces" label="Add extra braces around its Title field (preserves capitalisation)"/>
         <checkbox id="z2b-chk-bring-to-front" preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
       </vbox>
     </groupbox>
+
   </prefpane>
 </prefwindow>
