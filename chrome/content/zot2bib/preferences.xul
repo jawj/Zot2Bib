@@ -6,7 +6,7 @@
     id="zot2bib-prefs-dialog"
     title="Zot2Bib preferences"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <prefpane id="z2b-prefpane">
+  <prefpane id="z2b-prefpane" style="padding: 1em;">
 
     <preferences>
       <preference id="z2b-pref-open-pub" name="extensions.z2b.openpub" type="bool"/>
