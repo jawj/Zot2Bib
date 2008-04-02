@@ -12,11 +12,11 @@ Zotero.Zot2Bib = {
 
 
   about: function() {
-    window.open("chrome://zot2bib/content/about_window.xul", "", "centerscreen,chrome,dialog");
+    window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
   },
 
   preferences: function() {
-    window.open("chrome://zot2bib/content/preferences.xul", "", "centerscreen,chrome");
+    window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,resizable");
   },
 
   chooseFile: function() {
