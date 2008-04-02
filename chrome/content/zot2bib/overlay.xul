@@ -16,7 +16,7 @@
         id="z2b-panel"
         class="statusbarpanel-menu-iconic"
         src="chrome://zot2bib/skin/z2b.png">
-      <menupopup id="z2b-menu">
+      <menupopup id="z2b-menu" position="before_end">
         <menuitem id="z2b-menu-caption" label="Add new publications to..." disabled="true"/>
         <menuitem id="z2b-add-zotero" label="Zotero" type="radio" name="z2b-destination" tooltiptext="Add to Zotero, as if this extension was not installed"/>
         <menuitem id="z2b-add-empty" label="Empty BibTeX file" type="radio" name="z2b-destination" checked="true" tooltiptext="Add to new, empty files in BibDesk"/>
