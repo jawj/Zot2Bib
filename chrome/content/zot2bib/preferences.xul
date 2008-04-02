@@ -16,21 +16,19 @@
 
     <groupbox>
       <caption label="BibTeX files"/>
-      <vbox>
-        <hbox>
-            <listbox flex="1" rows="5" id="zot2bib-listbox">
-<listitem label="/Users/George/Documents/Academic/all.bib"/>
-            </listbox>
-            <vbox>
-              <button id="zot2bib-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
-              <button id="zot2bib-move-down" label="Move down" oncommand="parent.useragentswitcher_moveDown()"/>
-            </vbox>
-        </hbox>  
-            <hbox>
-              <button label="Add..." oncommand="parent.useragentswitcher_addUserAgent()"/>
-              <button id="useragentswitcher-delete" label="Delete" oncommand="parent.useragentswitcher_deleteUserAgent()"/>
-            </hbox>
-</vbox>
+      <hbox>
+        <listbox flex="1" rows="5" id="zot2bib-listbox">
+          <listitem label="/Users/George/Documents/Academic/all.bib"/>
+        </listbox>
+        <vbox>
+          <button id="zot2bib-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
+          <button id="zot2bib-move-down" label="Move down" oncommand="parent.useragentswitcher_moveDown()"/>
+        </vbox>
+      </hbox>
+      <hbox>
+        <button label="Add..." oncommand="parent.useragentswitcher_addUserAgent()"/>
+        <button id="useragentswitcher-delete" label="Delete" oncommand="parent.useragentswitcher_deleteUserAgent()"/>
+      </hbox>
     </groupbox>
     <groupbox>
       <caption label="When adding a publication to BibDesk..."/>

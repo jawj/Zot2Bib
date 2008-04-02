@@ -1,6 +1,8 @@
 Zotero.Zot2Bib = {
 
   own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
+  about_window_ref: null,
+  preferences_window_ref: null,
 
   init: function() {
     // Register the callback in Zotero as an item observer
@@ -12,11 +14,19 @@ Zotero.Zot2Bib = {
 
 
   about: function() {
-    window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
+    if (parent.about_window_ref == null || parent.about_window_ref.closed) {
+      parent.about_window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
+    } else {
+      parent.about_window_ref.focus();
+    }
   },
 
   preferences: function() {
-    window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
+    if (parent.preferences_window_ref == null || parent.preferences_window_ref.closed) {
+      parent.preferences_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
+    } else {
+      parent.preferences_window_ref.focus();
+    }
   },
 
   chooseFile: function() {
