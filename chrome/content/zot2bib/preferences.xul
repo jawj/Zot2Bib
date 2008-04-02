@@ -12,11 +12,10 @@
       <preference id="z2b-pref-open-pub" name="extensions.z2b.openpub" type="bool"/>
       <preference id="z2b-pref-bring-to-front" name="extensions.z2b.bringtofront" type="bool"/>
       <preference id="z2b-pref-extra-braces" name="extensions.z2b.extrabraces" type="bool"/>
-      <preference id="z2b-pref-Zotero-erase" name="extensions.z2b.Zoteroerase" type="bool"/>
     </preferences>
 
     <groupbox>
-      <caption label="Auto-export destinations"/>
+      <caption label="BibTeX files"/>
       <grid>
         <columns>
           <column flex="1"/>
@@ -25,9 +24,6 @@
         <rows>
           <row align="top">
             <listbox flex="1" id="zot2bib-listbox" rows="6" onselect="parent.useragentswitcher_userAgentBoxSelected()">
-              <listhead>
-                <listheader label=".bib files"/>
-              </listhead>
             </listbox>
             <vbox>
               <button id="zot2bib-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
@@ -46,7 +42,6 @@
     <groupbox>
       <caption label="When exporting a publication..."/>
       <vbox>
-        <checkbox id="z2b-chk-Zotero-erase" preference="z2b-pref-Zotero-erase" label="Remove it from the Zotero database"/>
         <checkbox id="z2b-chk-open-pub" preference="z2b-pref-open-pub" label="Open it for editing in BibDesk"/>
         <checkbox id="z2b-chk-extra-braces" preference="z2b-pref-extra-braces" label="Add extra braces around its Title field (preserves capitalisation)"/>
         <checkbox id="z2b-chk-bring-to-front" preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
