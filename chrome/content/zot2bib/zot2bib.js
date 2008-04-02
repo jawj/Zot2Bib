@@ -8,18 +8,18 @@ Zotero.Zot2Bib = {
   },
 
   about: function() {
-    if (! this.window_ref || this.window_ref.closed) {
-      this.window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
+    if (! this.about_window_ref || this.about_window_ref.closed) {
+      this.about_window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
     } else {
-      this.window_ref.focus();
+      this.about_window_ref.focus();
     }
   },
 
   preferences: function() {
-    if (! this.window_ref || this.window_ref.closed) {
-      this.window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
+    if (! this.prefs_window_ref || this.prefs_window_ref.closed) {
+      this.prefs_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
     } else {
-      this.window_ref.focus();
+      this.prefs_window_ref.focus();
     }
   },
 
