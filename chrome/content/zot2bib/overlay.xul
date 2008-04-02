@@ -18,9 +18,10 @@
         tooltiptext="Zotero-to-BibDesk extension">
       <menupopup position="before_end" id="z2b-menu">
         <menuitem label="Add new publications to..." disabled="true"/>
-        <menuitem label="all.bib in Academic" type="radio" name="z2b-destination"/>
-        <menuitem id="z2b-add-new" label="New BibDesk file" type="radio" name="z2b-destination" checked="true"/>
-        <menuitem id="z2b-add-zotero" label="Zotero" type="radio" name="z2b-destination" checked="true"/>
+        <menuitem id="z2b-add-zotero" label="Zotero collection" type="radio" name="z2b-destination"/>
+        <menuitem id="z2b-add-empty" label="Empty BibTeX file" type="radio" name="z2b-destination" checked="true"/>
+        <!--<menuitem label="BibTeX file 'all.bib'" type="radio" name="z2b-destination"/>-->
+        <menuitem label="Add BibTeX files to this list via Preferences..." disabled="true"/>
         <menuseparator/>
         <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.preferences();"/>
         <menuitem id="z2b-about" label="About Zot2Bib" oncommand="Zotero.Zot2Bib.about();"/>
