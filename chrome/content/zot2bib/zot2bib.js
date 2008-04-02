@@ -1,31 +1,25 @@
 Zotero.Zot2Bib = {
 
   own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
-  about_window_ref: null,
-  preferences_window_ref: null,
 
   init: function() {
-    // Register the callback in Zotero as an item observer
-    var notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, ['item']);
-
-    // Unregister callback when the window closes (important to avoid a memory leak)
-    window.addEventListener('unload', function(e) { Zotero.Notifier.unregisterObserver(notifierID); }, false);
+    var notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, ['item']); // register the callback in Zotero as an item observer
+    window.addEventListener('unload', function(e) { Zotero.Notifier.unregisterObserver(notifierID); }, false); // unregister callback when the window closes (avoid a memory leak)
   },
 
-
   about: function() {
-    if (parent.about_window_ref == null || parent.about_window_ref.closed) {
-      parent.about_window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
+    if (! this.window_ref || this.window_ref.closed) {
+      this.window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
     } else {
-      parent.about_window_ref.focus();
+      this.window_ref.focus();
     }
   },
 
   preferences: function() {
-    if (parent.preferences_window_ref == null || parent.preferences_window_ref.closed) {
-      parent.preferences_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
+    if (! this.window_ref || this.window_ref.closed) {
+      this.window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
     } else {
-      parent.preferences_window_ref.focus();
+      this.window_ref.focus();
     }
   },
 
@@ -99,5 +93,4 @@ Zotero.Zot2Bib = {
   }
 };
 
-// Initialize the utility
-window.addEventListener('load', function(e) { Zotero.Zot2Bib.init(); }, false);
+window.addEventListener('load', function(e) { Zotero.Zot2Bib.init(); }, false); // Initialize the utility
