@@ -16,7 +16,7 @@ Zotero.Zot2Bib = {
   },
 
   preferences: function() {
-    window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,resizable");
+    window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
   },
 
   chooseFile: function() {
