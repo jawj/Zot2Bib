@@ -6,6 +6,7 @@
     id="zot2bib-preferences-window"
     title="Zot2Bib preferences"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
   <prefpane id="z2b-prefpane" style="padding: 1em;">
     <preferences>
       <preference id="z2b-pref-extra-braces" name="extensions.z2b.extrabraces" type="bool"/>
@@ -35,4 +36,5 @@
         <checkbox preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
     </groupbox>
   </prefpane>
+
 </prefwindow>
