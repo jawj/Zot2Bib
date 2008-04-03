@@ -36,7 +36,7 @@ function listAction(e) {
 
   } else if (e.target == upbtn || e.target == downbtn) {
     olditem = listbox.selectedItem;
-    newitem = listbox.getItemAt(listbox.selectedIndex + ( e.target == upbtn ? -1 : 1 ));
+    newitem = listbox.getItemAtIndex(listbox.selectedIndex + ( e.target == upbtn ? -1 : 1 ));
     [olditem.label, newitem.label] = [newitem.label, olditem.label];
   }
 
