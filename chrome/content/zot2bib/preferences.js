@@ -35,11 +35,13 @@ function listAction(e) {
       }
 
     } else if (e.target == removebtn) {
-      listbox.removeItemAt(listbox.selectedIndex);
+      var index = listbox.selectedIndex
+      listbox.removeItemAt(index);
+      if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(index, listbox.getRowCount() - 1));
 
     } else if (e.target == upbtn || e.target == downbtn) {
       olditem = listbox.selectedItem;
-      newitem = listbox.getItemAtIndex(listbox.selectedIndex + ( e.target == upbtn ? -1 : 1 ));
+      newitem = e.target == upbtn ? olditem.previousSibling : olditem.nextSibling;
       [olditem.label, newitem.label] = [newitem.label, olditem.label];
     }
 
@@ -47,12 +49,13 @@ function listAction(e) {
       listbox.selectItem(newitem);
       listbox.ensureElementIsVisible(newitem);
     }
+
     copyListToPrefs();
   }
 
   removebtn.disabled = ! listbox.selectedItem;
-  upbtn.disabled = ! listbox.selectedItem || listbox.selectedIndex == 0;
-  downbtn.disabled = ! listbox.selectedItem || listbox.selectedIndex == listbox.getRowCount() - 1;
+  upbtn.disabled = ! listbox.selectedItem || ! listbox.selectedItem.previousSibling;
+  downbtn.disabled = ! listbox.selectedItem || ! listbox.selectedItem.nextSibling;
 }
 
 function copyPrefsToList() {

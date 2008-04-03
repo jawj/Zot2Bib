@@ -3,9 +3,10 @@
 
 <prefwindow
     type="prefwindow"
-    id="zot2bib-preferences-window"
+    id="z2b-preferences-window"
     title="Zot2Bib preferences"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    persist="width height screenX screenY">
 
   <prefpane id="z2b-prefpane" style="padding: 1em;">
     <preferences>
@@ -16,8 +17,16 @@
     <groupbox oncommand="listAction(event);" onselect="listAction(event);">
       <caption label="BibTeX files"/>
       <hbox>
-        <listbox flex="1" rows="5" id="z2b-listbox">
-          <listitem label="/Users/George/Documents/Academic/all.bib"/>
+        <listbox flex="1" rows="6" id="z2b-listbox">
+<listitem label="/Users/George/Documents/Academic/all1.bib"/>
+<listitem label="/Users/George/Documents/Academic/all2.bib"/>
+<listitem label="/Users/George/Documents/Academic/all3.bib"/>
+<listitem label="/Users/George/Documents/Academic/all4.bib"/>
+<listitem label="/Users/George/Documents/Academic/all5.bib"/>
+<listitem label="/Users/George/Documents/Academic/all6.bib"/>
+<listitem label="/Users/George/Documents/Academic/all7.bib"/>
+<listitem label="/Users/George/Documents/Academic/all8.bib"/>
+<listitem label="/Users/George/Documents/Academic/all9.bib"/>
         </listbox>
         <vbox>
           <button id="z2b-move-up" label="Move up"/>
