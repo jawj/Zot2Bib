@@ -13,20 +13,20 @@
       <preference id="z2b-pref-open-pub" name="extensions.z2b.openpub" type="bool"/>
       <preference id="z2b-pref-bring-to-front" name="extensions.z2b.bringtofront" type="bool"/>
     </preferences>
-    <groupbox>
+    <groupbox oncommand="listAction(event);" onselect="listAction(event);">
       <caption label="BibTeX files"/>
       <hbox>
-        <listbox flex="1" rows="5" id="zot2bib-listbox">
+        <listbox flex="1" rows="5" id="z2b-listbox">
           <listitem label="/Users/George/Documents/Academic/all.bib"/>
         </listbox>
         <vbox>
-          <button id="zot2bib-move-up" label="Move up" oncommand="moveUp"/>
-          <button id="zot2bib-move-down" label="Move down" oncommand="moveDown"/>
+          <button id="z2b-move-up" label="Move up"/>
+          <button id="z2b-move-down" label="Move down"/>
         </vbox>
       </hbox>
       <hbox>
-        <button label="Add..." oncommand="parent.useragentswitcher_addUserAgent()"/>
-        <button id="useragentswitcher-delete" label="Delete" oncommand="parent.useragentswitcher_deleteUserAgent()"/>
+        <button id="z2b-add" label="Add..."/>
+        <button id="z2b-remove" label="Remove"/>
       </hbox>
     </groupbox>
     <groupbox>
