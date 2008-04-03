@@ -5,6 +5,6 @@
     var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
     var browserWindow = wm.getMostRecentWindow("navigator:browser");
     browserWindow.Zotero.Zot2Bib.preferences();
-    window.close;
+    window.close();
   </script>
 </window>
