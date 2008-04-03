@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
-<?xul-overlay href="chrome://zot2bib/content/about_content.xul"?>
-
-<dialog
-    id="z2b-about"
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-    buttons="accept">
-</dialog>

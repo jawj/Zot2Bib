@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<window id="z2b-about"
+    xmlns:h="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+    align="center"
+    style="padding: 1em 3em;">
+
+  <hbox>
+    <image src="chrome://zot2bib/skin/z2b_large.png"/>
+  </hbox>
+  <description flex="1" style="text-align: center;">
+    <h:h2>Zot2Bib</h:h2>
+    <h:p>Version 1.1</h:p>
+    <h:p><h:a target="_new" href="http://mackerron.com/" style="color: #0000ff;">http://mackerron.com/</h:a></h:p>
+    <h:p>Copyright &#169; 2008 George MacKerron<h:br/>All rights reserved</h:p>
+  </description>
+
+</window>

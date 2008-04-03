@@ -9,7 +9,7 @@ Zotero.Zot2Bib = {
 
   about: function() {
     if (! this.about_window_ref || this.about_window_ref.closed) {
-      this.about_window_ref = window.open("chrome://zot2bib/content/about_window.xul", "z2b-about-window", "centerscreen,chrome,dialog");
+      this.about_window_ref = window.open("chrome://zot2bib/content/about.xul", "", "centerscreen,chrome,dialog");
     } else {
       this.about_window_ref.focus();
     }
@@ -17,7 +17,7 @@ Zotero.Zot2Bib = {
 
   preferences: function() {
     if (! this.prefs_window_ref || this.prefs_window_ref.closed) {
-      this.prefs_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "z2b-preferences-window", "centerscreen,chrome,dialog,resizable");
+      this.prefs_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "", "centerscreen,chrome,dialog,resizable");
     } else {
       this.prefs_window_ref.focus();
     }
