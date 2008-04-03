@@ -20,8 +20,8 @@
           <listitem label="/Users/George/Documents/Academic/all.bib"/>
         </listbox>
         <vbox>
-          <button id="zot2bib-move-up" label="Move up" oncommand="parent.useragentswitcher_moveUp()"/>
-          <button id="zot2bib-move-down" label="Move down" oncommand="parent.useragentswitcher_moveDown()"/>
+          <button id="zot2bib-move-up" label="Move up" oncommand="moveUp"/>
+          <button id="zot2bib-move-down" label="Move down" oncommand="moveDown"/>
         </vbox>
       </hbox>
       <hbox>
@@ -36,5 +36,7 @@
         <checkbox preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
     </groupbox>
   </prefpane>
+
+  <script src="preferences.js"/>
 
 </prefwindow>
