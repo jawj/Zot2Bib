@@ -26,7 +26,7 @@
         <em:name>Zotero</em:name>
         <em:homepageURL>http://www.zotero.org</em:homepageURL>
         <em:minVersion>1.0.0b4.r5</em:minVersion>
-        <em:maxVersion>1.0.3</em:maxVersion>
+        <em:maxVersion>1.0.*</em:maxVersion>
       </Description>
     </em:requires>
 
