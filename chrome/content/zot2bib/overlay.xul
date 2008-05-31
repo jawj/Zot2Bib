@@ -22,8 +22,9 @@
         <menuitem id="z2b-add-empty" label="Empty BibTeX file" type="radio" name="z2b-destination" checked="true" tooltiptext="Add to new, empty files in BibDesk"/>
         <menuitem label="BibTeX file 'all.bib'" type="radio" name="z2b-destination" tooltiptext="Add to /Users/George/Documents/Academic/all.bib"/>
         <menuseparator/>
-        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.preferences();"/>
         <menuitem id="z2b-about" label="About Zot2Bib" oncommand="Zotero.Zot2Bib.about();"/>
+        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.preferences();"/>
+        <menuitem id="z2b-help" label="Help" oncommand="Zotero.Zot2Bib.help();"/>
       </menupopup>
     </statusbarpanel>
   </statusbar>

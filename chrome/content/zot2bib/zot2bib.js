@@ -23,6 +23,14 @@ Zotero.Zot2Bib = {
     }
   },
 
+  help: function() {
+    if (! this.help_window_ref || this.help_window_ref.closed) {
+      this.help_window_ref = window.open("chrome://zot2bib/content/help.html");
+    } else {
+      this.help_window_ref.focus();
+    }
+  },
+
   chooseFile: function() {
     const nsIFilePicker = Components.interfaces.nsIFilePicker;
     const nsIPrefService = Components.interfaces.nsIPrefService;
