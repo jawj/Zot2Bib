@@ -5,7 +5,6 @@ var browserWindow = wm.getMostRecentWindow("navigator:browser");
 function listAction(e) {
 
   const nsIFilePicker = Components.interfaces.nsIFilePicker;
-  const nsIPrefService = Components.interfaces.nsIPrefService;
 
   var listbox = gebi('z2b-listbox');
   var addbtn = gebi('z2b-add');
@@ -59,10 +58,21 @@ function listAction(e) {
 }
 
 function copyPrefsToList() {
-
+  const nsIPrefService = Components.interfaces.nsIPrefService;
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+  var listbox = gebi('z2b-listbox');
+  while (listbox.getRowCount() > 0) listbox.removeItemAt(0);
+  var a = prefs.getCharPref('bibfiles').split(',');
+  for (var i = 0; i < a.length; i ++) listbox.appendItem(unescape(a[i]));
 }
-function copyListToPrefs() {
 
+function copyListToPrefs() {
+  const nsIPrefService = Components.interfaces.nsIPrefService;
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+  var listbox = gebi('z2b-listbox');
+  var a = new Array();
+  for (var i = 0; i < listbox.getRowCount(); i ++) a.push(escape(listbox.getItemAtIndex(i).label));
+  prefs.setCharPref('bibfiles', a.join(','));
 }
 
 function gebi(id) { return document.getElementById(id); }

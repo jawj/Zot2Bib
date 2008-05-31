@@ -5,7 +5,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>zot2bib@mackerron.com</em:id>
     <em:name>Zotero-to-BibDesk auto-import utility</em:name>
-    <em:version>1.1</em:version>
+    <em:version>2.0</em:version>
     <em:description>Automatically imports new references from Zotero into a chosen .bib file via BibDesk</em:description>
     <em:creator>George MacKerron</em:creator>
     <em:type>2</em:type> <!-- type=extension -->
@@ -35,7 +35,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>2.0</em:minVersion>
-        <em:maxVersion>2.0.0.*</em:maxVersion>
+        <em:maxVersion>3.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
