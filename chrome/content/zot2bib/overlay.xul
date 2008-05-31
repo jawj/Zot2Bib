@@ -4,24 +4,19 @@
 
 <overlay id="zot2bib-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <menupopup id="zotero-tb-actions-popup">
-    <!-- Make sure the menu separator for utilities is visible -->
-    <menuseparator id="zotero-tb-actions-utilities-separator" hidden="false"/>
-    <menuitem insertbefore="zotero-tb-actions-separator" label="&zot2bib.name;" oncommand="Zotero.Zot2Bib.chooseFile()"/>
-  </menupopup>
-
- 
   <statusbar id="status-bar">
     <statusbarpanel
         id="z2b-panel"
         class="statusbarpanel-menu-iconic"
         src="chrome://zot2bib/skin/z2b.png">
-      <menupopup id="z2b-menu" position="before_end">
+      <menupopup id="z2b-menu" position="before_end" onpopupshowing="Zotero.Zot2Bib.populateMenu();">
         <menuitem id="z2b-menu-caption" label="Add new publications to..." disabled="true"/>
         <menuitem id="z2b-add-zotero" label="Zotero" type="radio" name="z2b-destination" tooltiptext="Add to Zotero, as if this extension was not installed"/>
-        <menuitem id="z2b-add-empty" label="Empty BibTeX file" type="radio" name="z2b-destination" checked="true" tooltiptext="Add to new, empty files in BibDesk"/>
-        <menuitem label="BibTeX file 'all.bib'" type="radio" name="z2b-destination" tooltiptext="Add to /Users/George/Documents/Academic/all.bib"/>
-        <menuseparator/>
+        <menuitem id="z2b-add-empty" label="New BibTeX files" type="radio" name="z2b-destination" checked="true" tooltiptext="Create a new file in BibDesk for each publication"/>
+
+        <!--<menuitem label="BibTeX file 'all.bib'" type="radio" name="z2b-destination" tooltiptext="Add to /Users/George/Documents/Academic/all.bib"/>-->
+
+        <menuseparator id="z2b-menu-separator"/>
         <menuitem id="z2b-about" label="About Zot2Bib" oncommand="Zotero.Zot2Bib.about();"/>
         <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zotero.Zot2Bib.preferences();"/>
         <menuitem id="z2b-help" label="Help" oncommand="Zotero.Zot2Bib.help();"/>

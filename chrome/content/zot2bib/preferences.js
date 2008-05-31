@@ -1,16 +1,9 @@
-
+const nsIFilePicker = Components.interfaces.nsIFilePicker;
 var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-var browserWindow = wm.getMostRecentWindow("navigator:browser");
+
+var listbox, addbtn, removebtn, upbtn, downbtn;
 
 function listAction(e) {
-
-  const nsIFilePicker = Components.interfaces.nsIFilePicker;
-
-  var listbox = gebi('z2b-listbox');
-  var addbtn = gebi('z2b-add');
-  var removebtn = gebi('z2b-remove');
-  var upbtn = gebi('z2b-move-up');
-  var downbtn = gebi('z2b-move-down');
 
   if (e && e.type == 'command' ) {
 
@@ -58,26 +51,28 @@ function listAction(e) {
 }
 
 function copyPrefsToList() {
-  const nsIPrefService = Components.interfaces.nsIPrefService;
-  var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-  var listbox = gebi('z2b-listbox');
   while (listbox.getRowCount() > 0) listbox.removeItemAt(0);
-  var a = prefs.getCharPref('bibfiles').split(',');
-  for (var i = 0; i < a.length; i ++) listbox.appendItem(unescape(a[i]));
+  var bw = wm.getMostRecentWindow("navigator:browser");
+  var a = bw.Zotero.Zot2Bib.loadFileList();
+  for (var i = 0; i < a.length; i ++) listbox.appendItem(a[i]);
 }
 
-function copyListToPrefs() {
-  const nsIPrefService = Components.interfaces.nsIPrefService;
-  var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-  var listbox = gebi('z2b-listbox');
+function copyListToPrefs() { 
   var a = new Array();
-  for (var i = 0; i < listbox.getRowCount(); i ++) a.push(escape(listbox.getItemAtIndex(i).label));
-  prefs.setCharPref('bibfiles', a.join(','));
+  for (var i = 0; i < listbox.getRowCount(); i ++) a.push(listbox.getItemAtIndex(i).label);
+  var bw = wm.getMostRecentWindow("navigator:browser");
+  bw.Zotero.Zot2Bib.saveFileList(a);
 }
 
 function gebi(id) { return document.getElementById(id); }
 
 window.onload = function() {
+  listbox = gebi('z2b-listbox');
+  addbtn = gebi('z2b-add');
+  removebtn = gebi('z2b-remove');
+  upbtn = gebi('z2b-move-up');
+  downbtn = gebi('z2b-move-down');
+
   copyPrefsToList();
   listAction();
 }

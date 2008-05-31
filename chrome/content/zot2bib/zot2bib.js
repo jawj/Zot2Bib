@@ -31,21 +31,40 @@ Zotero.Zot2Bib = {
     }
   },
 
-  chooseFile: function() {
-    const nsIFilePicker = Components.interfaces.nsIFilePicker;
+  populateMenu: function() {
     const nsIPrefService = Components.interfaces.nsIPrefService;
-
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-
-    fp.init(window, "Choose BibTeX file for auto-export", nsIFilePicker.modeOpen);
-    fp.appendFilter("BibTeX", "*.bib");
-    var rv = fp.show();
-
-    if (rv == nsIFilePicker.returnOK) {
-      var path = fp.file.path;
-      prefs.setCharPref('bibfile', path);
+    var a = Zotero.Zot2Bib.loadFileList();
+    var m = document.getElementById('z2b-menu');
+    for (var i = m.childNodes.length - 1; i >= 0; i --) {
+      var mi = m.childNodes[i];
+      if (mi.getAttribute('id').match(/^z2b-bibfile-[0-9]+$/)) m.removeChild(mi);
     }
+    var ms = document.getElementById('z2b-menu-separator');
+    for (i = 0; i < a.length; i ++) {
+      mi = document.createElement('menuitem');
+      mi.setAttribute('label', a[i].substr(a[i].lastIndexOf('/') + 1));
+      mi.setAttribute('type', 'radio');
+      mi.setAttribute('name', 'z2b-destination');
+      mi.setAttribute('tooltiptext', a[i]);
+      mi.setAttribute('value', a[i]);
+      mi.setAttribute('id', 'z2b-bibfile-' + i);
+      m.insertBefore(mi, ms);
+    }
+  },
+
+  saveFileList: function(a) {
+    const nsIPrefService = Components.interfaces.nsIPrefService;
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+    for (var i = 0; i < a.length; i ++) a[i] = escape(a[i]);
+    prefs.setCharPref('bibfiles', a.join(','));
+  },
+
+  loadFileList: function() {
+    const nsIPrefService = Components.interfaces.nsIPrefService;
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+    var a = prefs.getCharPref('bibfiles').split(',');
+    for (var i = 0; i < a.length; i ++) a[i] = unescape(a[i]);
+    return a;
   },
 
   // Callback implementing the notify() method to pass to the Notifier
