@@ -31,7 +31,7 @@
         <button id="z2b-add" label="Add..."/>
         <button id="z2b-remove" label="Remove"/>
       </hbox>
-      <checkbox preference="z2b-pref-many-dests" label="Permit selecting more than one destination"/>
+      <checkbox id="z2b-many-dests" preference="z2b-pref-many-dests" label="Permit selecting any number of destinations"/>
     </groupbox>
     <groupbox>
       <caption label="When adding a publication to BibDesk..."/>

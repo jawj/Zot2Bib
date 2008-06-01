@@ -31,40 +31,80 @@ Zotero.Zot2Bib = {
     }
   },
 
-  populateMenu: function() {
+  populateMenu: function(m) {
     const nsIPrefService = Components.interfaces.nsIPrefService;
-    var a = Zotero.Zot2Bib.loadFileList();
-    var m = document.getElementById('z2b-menu');
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+    var a = Zotero.Zot2Bib.loadList('bibfiles');
     for (var i = m.childNodes.length - 1; i >= 0; i --) {
       var mi = m.childNodes[i];
-      if (mi.getAttribute('id').match(/^z2b-bibfile-[0-9]+$/)) m.removeChild(mi);
+      if (mi.id == 'z2b-add-zotero' || mi.id == 'z2b-add-empty') mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
+      if (mi.id == 'z2b-add-zotero' && prefs.getBoolPref('keepinzotero')) mi.setAttribute('checked', true);
+      if (mi.id == 'z2b-add-empty' && prefs.getBoolPref('addtoempty')) mi.setAttribute('checked', true);
+      if (mi.id.match(/^z2b-bibfile-[0-9]+$/)) m.removeChild(mi);
     }
     var ms = document.getElementById('z2b-menu-separator');
+    var destfiles = Zotero.Zot2Bib.loadList('destfiles');
     for (i = 0; i < a.length; i ++) {
       mi = document.createElement('menuitem');
+      mi.id = 'z2b-bibfile-' + i;
       mi.setAttribute('label', a[i].substr(a[i].lastIndexOf('/') + 1));
-      mi.setAttribute('type', 'radio');
+      mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
       mi.setAttribute('name', 'z2b-destination');
+      mi.setAttribute('crop', 'center');
       mi.setAttribute('tooltiptext', a[i]);
       mi.setAttribute('value', a[i]);
-      mi.setAttribute('id', 'z2b-bibfile-' + i);
+      for (var j = 0; j < destfiles.length; j ++) if (a[i] == destfiles[j]) mi.setAttribute('checked', true);
       m.insertBefore(mi, ms);
     }
   },
 
-  saveFileList: function(a) {
+  saveMenuChoices: function(m) {
+    const nsIPrefService = Components.interfaces.nsIPrefService;
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+    var a = [];
+    for (var i = 0; i < m.childNodes.length; i ++) {
+      var mi = m.childNodes[i];
+      if (mi.id == 'z2b-add-zotero') prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
+      else if (mi.id == 'z2b-add-empty') prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
+      else if (mi.id.match(/^z2b-bibfile-[0-9]+$/) && mi.hasAttribute('checked')) a.push(mi.getAttribute('value'));
+    }
+    Zotero.Zot2Bib.saveList('destfiles', a);
+  },
+
+  selectOneOnly: function() {
+    const nsIPrefService = Components.interfaces.nsIPrefService;
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+    var destfiles = Zotero.Zot2Bib.loadList('destfiles');
+    var n = destfiles.length + (prefs.getBoolPref('keepinzotero') ? 1 : 0) + (prefs.getBoolPref('addtoempty') ? 1 : 0);
+    if (n > 1) {
+      prefs.setBoolPref('keepinzotero', true);
+      prefs.setBoolPref('addtoempty', false);
+      Zotero.Zot2Bib.saveList('destfiles', []);
+      return true;
+    }
+  },
+
+  removeDestFile: function(f) {
+
+  },
+
+  saveList: function(pref, a) {
     const nsIPrefService = Components.interfaces.nsIPrefService;
     var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
     for (var i = 0; i < a.length; i ++) a[i] = escape(a[i]);
-    prefs.setCharPref('bibfiles', a.join(','));
+    prefs.setCharPref(pref, a.join(','));
   },
 
-  loadFileList: function() {
+  loadList: function(pref) {
     const nsIPrefService = Components.interfaces.nsIPrefService;
     var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    var a = prefs.getCharPref('bibfiles').split(',');
-    for (var i = 0; i < a.length; i ++) a[i] = unescape(a[i]);
-    return a;
+    var s = prefs.getCharPref(pref)
+    if (s.length == 0) return []; // weirdly, splitting an empty string appears to produce an Array with one empty string element
+    else {
+      var a = s.split(',');
+      for (var i = 0; i < a.length; i ++) a[i] = unescape(a[i]);
+      return a;
+    }
   },
 
   // Callback implementing the notify() method to pass to the Notifier
