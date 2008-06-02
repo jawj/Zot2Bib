@@ -1,6 +1,7 @@
 Zotero.Zot2Bib = {
 
   own_path: Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir(),
+  prefs: Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.z2b."),
 
   init: function() {
     var notifierID = Zotero.Notifier.registerObserver(this.notifierCallback, ['item']); // register the callback in Zotero as an item observer
@@ -8,47 +9,36 @@ Zotero.Zot2Bib = {
   },
 
   about: function() {
-    if (! this.about_window_ref || this.about_window_ref.closed) {
-      this.about_window_ref = window.open("chrome://zot2bib/content/about.xul", "", "centerscreen,chrome,dialog");
-    } else {
-      this.about_window_ref.focus();
-    }
+    if (! this.about_window_ref || this.about_window_ref.closed) this.about_window_ref = window.open("chrome://zot2bib/content/about.xul", "", "centerscreen,chrome,dialog");
+    else this.about_window_ref.focus();
   },
 
   preferences: function() {
-    if (! this.prefs_window_ref || this.prefs_window_ref.closed) {
-      this.prefs_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "", "centerscreen,chrome,dialog,resizable");
-    } else {
-      this.prefs_window_ref.focus();
-    }
+    if (! this.prefs_window_ref || this.prefs_window_ref.closed) this.prefs_window_ref = window.open("chrome://zot2bib/content/preferences.xul", "", "centerscreen,chrome,dialog,resizable");
+    else this.prefs_window_ref.focus();
   },
 
   help: function() {
-    if (! this.help_window_ref || this.help_window_ref.closed) {
-      this.help_window_ref = window.open("chrome://zot2bib/content/help.html");
-    } else {
-      this.help_window_ref.focus();
-    }
+    if (! this.help_window_ref || this.help_window_ref.closed) this.help_window_ref = window.open("chrome://zot2bib/content/help.html");
+    else this.help_window_ref.focus();
   },
 
   populateMenu: function(m) {
-    const nsIPrefService = Components.interfaces.nsIPrefService;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    var a = Zotero.Zot2Bib.loadList('bibfiles');
+    var a = this.loadList('bibfiles');
     for (var i = m.childNodes.length - 1; i >= 0; i --) {
       var mi = m.childNodes[i];
-      if (mi.id == 'z2b-add-zotero' || mi.id == 'z2b-add-empty') mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
-      if (mi.id == 'z2b-add-zotero' && prefs.getBoolPref('keepinzotero')) mi.setAttribute('checked', true);
-      if (mi.id == 'z2b-add-empty' && prefs.getBoolPref('addtoempty')) mi.setAttribute('checked', true);
+      if (mi.id == 'z2b-add-zotero' || mi.id == 'z2b-add-empty') mi.setAttribute('type', this.prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
+      if (mi.id == 'z2b-add-zotero' && this.prefs.getBoolPref('keepinzotero')) mi.setAttribute('checked', true);
+      if (mi.id == 'z2b-add-empty' && this.prefs.getBoolPref('addtoempty')) mi.setAttribute('checked', true);
       if (mi.id.match(/^z2b-bibfile-[0-9]+$/)) m.removeChild(mi);
     }
-    var ms = document.getElementById('z2b-menu-separator');
-    var destfiles = Zotero.Zot2Bib.loadList('destfiles');
+    var ms = m.getElementsByTagName('menuseparator')[0];
+    var destfiles = this.loadList('destfiles');
     for (i = 0; i < a.length; i ++) {
       mi = document.createElement('menuitem');
       mi.id = 'z2b-bibfile-' + i;
       mi.setAttribute('label', a[i].substr(a[i].lastIndexOf('/') + 1));
-      mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
+      mi.setAttribute('type', this.prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
       mi.setAttribute('name', 'z2b-destination');
       mi.setAttribute('crop', 'center');
       mi.setAttribute('tooltiptext', a[i]);
@@ -59,46 +49,49 @@ Zotero.Zot2Bib = {
   },
 
   saveMenuChoices: function(m) {
-    const nsIPrefService = Components.interfaces.nsIPrefService;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
     var a = [];
     for (var i = 0; i < m.childNodes.length; i ++) {
       var mi = m.childNodes[i];
-      if (mi.id == 'z2b-add-zotero') prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
-      else if (mi.id == 'z2b-add-empty') prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
+      if (mi.id == 'z2b-add-zotero') this.prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
+      else if (mi.id == 'z2b-add-empty') this.prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
       else if (mi.id.match(/^z2b-bibfile-[0-9]+$/) && mi.hasAttribute('checked')) a.push(mi.getAttribute('value'));
     }
-    Zotero.Zot2Bib.saveList('destfiles', a);
+    this.saveList('destfiles', a);
   },
 
   selectOneOnly: function() {
-    const nsIPrefService = Components.interfaces.nsIPrefService;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    var destfiles = Zotero.Zot2Bib.loadList('destfiles');
-    var n = destfiles.length + (prefs.getBoolPref('keepinzotero') ? 1 : 0) + (prefs.getBoolPref('addtoempty') ? 1 : 0);
+    var destfiles = this.loadList('destfiles');
+    var n = destfiles.length + (this.prefs.getBoolPref('keepinzotero') ? 1 : 0) + (this.prefs.getBoolPref('addtoempty') ? 1 : 0);
     if (n > 1) {
-      prefs.setBoolPref('keepinzotero', true);
-      prefs.setBoolPref('addtoempty', false);
-      Zotero.Zot2Bib.saveList('destfiles', []);
+      this.prefs.setBoolPref('keepinzotero', true);
+      this.prefs.setBoolPref('addtoempty', false);
+      this.saveList('destfiles', []);
       return true;
     }
   },
 
   removeDestFile: function(f) {
-
+    var fs = this.loadList('destfiles');
+    for (var i = fs.length - 1; i >= 0 ; i --) if (fs[i] == f) {
+      fs.splice(i, 1);
+      this.saveList('destfiles', fs);
+      var n = fs.length + (this.prefs.getBoolPref('keepinzotero') ? 1 : 0) + (this.prefs.getBoolPref('addtoempty') ? 1 : 0);
+      if (n == 0) { 
+        this.prefs.setBoolPref('keepinzotero', true);
+        return true;
+      } else return false;
+    }
+    return false;
   },
 
   saveList: function(pref, a) {
-    const nsIPrefService = Components.interfaces.nsIPrefService;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    for (var i = 0; i < a.length; i ++) a[i] = escape(a[i]);
-    prefs.setCharPref(pref, a.join(','));
+    var b = [];
+    for (var i = 0; i < a.length; i ++) b[i] = escape(a[i]);
+    this.prefs.setCharPref(pref, b.join(','));
   },
 
   loadList: function(pref) {
-    const nsIPrefService = Components.interfaces.nsIPrefService;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
-    var s = prefs.getCharPref(pref)
+    var s = this.prefs.getCharPref(pref)
     if (s.length == 0) return []; // weirdly, splitting an empty string appears to produce an Array with one empty string element
     else {
       var a = s.split(',');
@@ -110,13 +103,12 @@ Zotero.Zot2Bib = {
   // Callback implementing the notify() method to pass to the Notifier
   notifierCallback: {
     notify: function(event, type, ids, extraData) {
-      const nsIPrefService = Components.interfaces.nsIPrefService;
       const nsIFile = Components.interfaces.nsIFile;
       const nsILocalFile = Components.interfaces.nsILocalFile;
       const nsIProcess = Components.interfaces.nsIProcess;
 
       if (event == 'add') {
-        var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(nsIPrefService).getBranch("extensions.z2b.");
+        var prefs = Zotero.Zot2Bib.prefs;
         if (! prefs.prefHasUserValue('bibfile')) return;
 
         var items = Zotero.Items.get(ids);

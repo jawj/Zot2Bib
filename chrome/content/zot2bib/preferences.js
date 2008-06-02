@@ -29,11 +29,13 @@ function listAction(e) {
       }
 
     } else if (e.target == removebtn) {
-      bw.Zotero.Zot2Bib.removeDestFile(selectedItem.label);
+      var l = listbox.selectedItem.label;
       var index = listbox.selectedIndex;
       listbox.removeItemAt(index);
       if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(index, listbox.getRowCount() - 1));
-      
+      if (bw.Zotero.Zot2Bib.removeDestFile(l)) {
+        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "Only selected destination has been removed", "Single destination for new publications has been reset to Zotero");
+      }
 
     } else if (e.target == upbtn || e.target == downbtn) {
       olditem = listbox.selectedItem;
@@ -42,8 +44,8 @@ function listAction(e) {
     
    } else if (e.target == manydests && ! e.target.checked) {
       if (bw.Zotero.Zot2Bib.selectOneOnly()) {
-        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "Notice", "Multiple destinations were selected.\nSingle destination is now Zotero.");
-      }
+        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "Multiple selected destinations have been cleared", "Single destination for new publications has been reset to Zotero");
+      } 
    }
 
     if (newitem) {
