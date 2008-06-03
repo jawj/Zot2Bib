@@ -92,7 +92,7 @@ Zotero.Zot2Bib = {
 
   loadList: function(pref) {
     var s = this.prefs.getCharPref(pref)
-    if (s.length == 0) return []; // weirdly, splitting an empty string appears to produce an Array with one empty string element
+    if (s.length == 0) return []; // because, weirdly, splitting an empty string appears to produce an Array with one empty string element, rather than an empty Array
     else {
       var a = s.split(',');
       for (var i = 0; i < a.length; i ++) a[i] = unescape(a[i]);
@@ -103,23 +103,29 @@ Zotero.Zot2Bib = {
   // Callback implementing the notify() method to pass to the Notifier
   notifierCallback: {
     notify: function(event, type, ids, extraData) {
-      const nsIFile = Components.interfaces.nsIFile;
-      const nsILocalFile = Components.interfaces.nsILocalFile;
-      const nsIProcess = Components.interfaces.nsIProcess;
-
       if (event == 'add') {
         var prefs = Zotero.Zot2Bib.prefs;
-        if (! prefs.prefHasUserValue('bibfile')) return;
-
         var items = Zotero.Items.get(ids);
 
         for (var i = 0; i < items.length; i ++) {
           var item = items[i];
-          if (! item.isRegularItem() || (! item.getCreator(0) && ! item.getField('title'))) continue;
+          if (! item.isRegularItem() || ((item.numCreators() > 0 ? 1 : 0) + (item.getField('title') ? 1 : 0) + (item.getField('date') ? 1 : 0) < 2)) continue; // require at least two of: authors, title, date
 
-          var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", nsIFile);
+          var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", Components.interfaces.nsIFile);
           file.append("zotero_item_" + item.id + ".bib");
-          file.createUnique(nsIFile.NORMAL_FILE_TYPE, 0666);
+          file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0666);
+
+          var script_path = Zotero.Zot2Bib.own_path.path + '/zot2bib.scpt';
+          var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+          osascript.initWithPath('/usr/bin/osascript');
+          var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
+          process.init(osascript);
+
+          var destfiles = Zotero.Zot2Bib.loadList('destfiles');
+          if (prefs.getBoolPref('addtoempty')) destfiles.push('');
+          var openpub = prefs.getBoolPref('openpub') ? 'true' : 'false';
+          var bringtofront = prefs.getBoolPref('bringtofront') ? 'true' : 'false';
+          var extrabraces = prefs.getBoolPref('extrabraces') ? 'true' : 'false';
 
           var translator = new Zotero.Translate('export');
           translator.setTranslator('9cb70025-a888-4a29-a210-93ec52da40d4'); // BibTeX
@@ -127,26 +133,16 @@ Zotero.Zot2Bib = {
           translator.setLocation(file);
 
           translator.setHandler('done', function() {
-            var script_path = Zotero.Zot2Bib.own_path.path + '/zot2bib.scpt';
-            var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(nsILocalFile);
-            osascript.initWithPath("/usr/bin/osascript");
-            var process = Components.classes["@mozilla.org/process/util;1"].createInstance(nsIProcess);
-            process.init(osascript);
-
-            var openpub = prefs.prefHasUserValue('openpub') && prefs.getBoolPref('openpub') ? 'true' : 'false';
-            var bringtofront = prefs.prefHasUserValue('bringtofront') && prefs.getBoolPref('bringtofront') ? 'true' : 'false';
-            var extrabraces = prefs.prefHasUserValue('extrabraces') && prefs.getBoolPref('extrabraces') ? 'true' : 'false';
-
-            var args = [script_path, prefs.getCharPref('bibfile'), file.path, openpub, bringtofront, extrabraces];
-            process.run(false, args, args.length); // first param true => calling thread will be blocked until called process terminates
-
-            if (prefs.prefHasUserValue('Zoteroerase') && prefs.getBoolPref('Zoteroerase')) {
-              Zotero.Items.erase([item.id], true); // second param true => delete item's children too
+	    for (var j = 0; j < destfiles.length; j ++) {
+              var args = [script_path, destfiles[j], file.path, openpub, bringtofront, extrabraces];
+              process.run(true, args, args.length); // first param true => calling thread will be blocked until called process terminates
             }
+            if (! prefs.getBoolPref('keepinzotero')) Zotero.Items.erase([item.id], false); // second param true => delete item's children too
+            // TO DO: alert if no destinations set?
           });
-
           translator.translate();
         }
+
       }
     }
   }
