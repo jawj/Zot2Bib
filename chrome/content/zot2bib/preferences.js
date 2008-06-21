@@ -18,7 +18,8 @@ function listAction(e) {
       var rv = fp.show();
       if (rv == nsIFilePicker.returnOK) {
         var path = fp.file.path;
-        for (var i = 0; i < listbox.getRowCount(); i ++) {
+        var rc = listbox.getRowCount()
+        for (var i = 0; i < rc; i ++) {
           olditem = listbox.getItemAtIndex(i);
           if (olditem.label == path) {
             newitem = olditem;
@@ -30,12 +31,10 @@ function listAction(e) {
 
     } else if (e.target == removebtn) {
       var l = listbox.selectedItem.label;
-      var index = listbox.selectedIndex;
-      listbox.removeItemAt(index);
-      if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(index, listbox.getRowCount() - 1));
-      if (bw.Zotero.Zot2Bib.removeDestFile(l)) {
-        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "Only selected destination has been removed", "Single destination for new publications has been reset to Zotero");
-      }
+      var si = listbox.selectedIndex;
+      listbox.removeItemAt(si);
+      bw.Zotero.Zot2Bib.removeDestFile(l);
+      if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(si, listbox.getRowCount() - 1));      
 
     } else if (e.target == upbtn || e.target == downbtn) {
       olditem = listbox.selectedItem;
@@ -43,17 +42,16 @@ function listAction(e) {
       [olditem.label, newitem.label] = [newitem.label, olditem.label];
     
    } else if (e.target == manydests && ! e.target.checked) {
-      if (bw.Zotero.Zot2Bib.selectOneOnly()) {
-        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "Multiple selected destinations have been cleared", "Single destination for new publications has been reset to Zotero");
+      if (bw.Zotero.Zot2Bib.numDests() > 1) {
+        e.target.checked = true;
+        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "You cannot uncheck this option while multiple destination files are selected", "Ensure only one destination is selected using the Zot2Bib status bar menu, then try again.");
       } 
-   }
+    }
 
     if (newitem) {
       listbox.ensureElementIsVisible(newitem);
       listbox.selectItem(newitem);
     }
-
-    copyListToPrefs();
   }
 
   removebtn.disabled = ! listbox.selectedItem;
@@ -62,21 +60,23 @@ function listAction(e) {
 }
 
 function copyPrefsToList() {
-  while (listbox.getRowCount() > 0) listbox.removeItemAt(0);
   var bw = wm.getMostRecentWindow("navigator:browser");
   var a = bw.Zotero.Zot2Bib.loadList('bibfiles');
-  for (var i = 0; i < a.length; i ++) listbox.appendItem(a[i]);
+  while (listbox.getRowCount() > 0) listbox.removeItemAt(0);
+  while (a.length) listbox.appendItem(a.shift());
 }
 
-function copyListToPrefs() { 
+function copyListToPrefs() {
+  var bw = wm.getMostRecentWindow("navigator:browser"); 
   var a = new Array();
-  for (var i = 0; i < listbox.getRowCount(); i ++) a.push(listbox.getItemAtIndex(i).label);
-  var bw = wm.getMostRecentWindow("navigator:browser");
+  var rc = listbox.getRowCount();
+  for (var i = 0; i < rc; i ++) a.push(listbox.getItemAtIndex(i).label);
   bw.Zotero.Zot2Bib.saveList('bibfiles', a);
 }
 
 function gebi(id) { return document.getElementById(id); }
-window.onload = function() {
+
+onload = function() {
   listbox = gebi('z2b-listbox');
   addbtn = gebi('z2b-add');
   removebtn = gebi('z2b-remove');
@@ -86,4 +86,8 @@ window.onload = function() {
 
   copyPrefsToList();
   listAction();
+}
+
+onblur = onunload = function () {
+  copyListToPrefs();
 }

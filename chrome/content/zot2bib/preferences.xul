@@ -16,7 +16,7 @@
       <preference id="z2b-pref-bring-to-front" name="extensions.z2b.bringtofront" type="bool"/>
     </preferences>
     <groupbox oncommand="listAction(event);" onselect="listAction(event);">
-      <caption label="In the Zot2Bib menu..."/> 
+      <caption label="In the Zot2Bib status bar menu..."/> 
       <vbox>
         <label value="Show these BibTeX files"/>
         <hbox>

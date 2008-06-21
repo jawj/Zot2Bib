@@ -59,15 +59,8 @@ Zotero.Zot2Bib = {
     this.saveList('destfiles', a);
   },
 
-  selectOneOnly: function() {
-    var destfiles = this.loadList('destfiles');
-    var n = destfiles.length + (this.prefs.getBoolPref('keepinzotero') ? 1 : 0) + (this.prefs.getBoolPref('addtoempty') ? 1 : 0);
-    if (n > 1) {
-      this.prefs.setBoolPref('keepinzotero', true);
-      this.prefs.setBoolPref('addtoempty', false);
-      this.saveList('destfiles', []);
-      return true;
-    }
+  numDests: function() {
+    return this.loadList('destfiles').length + (this.prefs.getBoolPref('keepinzotero') ? 1 : 0) + (this.prefs.getBoolPref('addtoempty') ? 1 : 0);
   },
 
   removeDestFile: function(f) {
@@ -75,13 +68,7 @@ Zotero.Zot2Bib = {
     for (var i = fs.length - 1; i >= 0 ; i --) if (fs[i] == f) {
       fs.splice(i, 1);
       this.saveList('destfiles', fs);
-      var n = fs.length + (this.prefs.getBoolPref('keepinzotero') ? 1 : 0) + (this.prefs.getBoolPref('addtoempty') ? 1 : 0);
-      if (n == 0) { 
-        this.prefs.setBoolPref('keepinzotero', true);
-        return true;
-      } else return false;
     }
-    return false;
   },
 
   saveList: function(pref, a) {
@@ -91,7 +78,7 @@ Zotero.Zot2Bib = {
   },
 
   loadList: function(pref) {
-    var s = this.prefs.getCharPref(pref)
+    var s = this.prefs.getCharPref(pref);
     if (s.length == 0) return []; // because, weirdly, splitting an empty string appears to produce an Array with one empty string element, rather than an empty Array
     else {
       var a = s.split(',');
