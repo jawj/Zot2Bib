@@ -49,8 +49,8 @@ function listAction(e) {
    }
 
     if (newitem) {
-      listbox.selectItem(newitem);
       listbox.ensureElementIsVisible(newitem);
+      listbox.selectItem(newitem);
     }
 
     copyListToPrefs();
@@ -76,7 +76,6 @@ function copyListToPrefs() {
 }
 
 function gebi(id) { return document.getElementById(id); }
-
 window.onload = function() {
   listbox = gebi('z2b-listbox');
   addbtn = gebi('z2b-add');
