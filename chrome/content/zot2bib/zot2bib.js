@@ -120,7 +120,10 @@ Zotero.Zot2Bib = {
           translator.setLocation(file);
 
           translator.setHandler('done', function() {
-            for (var j = 0; j < destfiles.length; j ++) {
+            if (Zotero.Zot2Bib.numdests() < 1) {
+              var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);              prompts.alert(null, "No destination for new publications is selected in Zot2Bib", "Use the Zot2Bib status bar menu to select a destination, then try again.");
+            }
+	    for (var j = 0; j < destfiles.length; j ++) {
               var args = [script_path, destfiles[j], file.path, openpub, bringtofront, extrabraces];
               process.run(true, args, args.length); // first param true => calling thread will be blocked until called process terminates
             }
@@ -128,11 +131,6 @@ Zotero.Zot2Bib = {
             if (! prefs.getBoolPref('keepinzotero')) {
               Zotero.Zot2Bib.deleteQueue.push(item.id);
               setTimeout(Zotero.Zot2Bib.deleteNext, 5000);
-            }
-
-            if (Zotero.Zot2Bib.numDests() < 1) {
-              var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
-              prompts.alert(null, "No Zot2Bib destinations are selected", "New publications are therefore being discarded. Please select a destination using the Zot2Bib status bar menu, and try again.");
             }
           });
           translator.translate();
@@ -146,7 +144,7 @@ Zotero.Zot2Bib = {
   deleteNext: function () {
     if (this.deleteQueue.length < 1) return;
     var itemId = this.deleteQueue.shift();
-    if (itemId) Zotero.Items.erase([itemId], true); // && Zotero.Items.find... ?
+    if (itemId && Zotero.Items.get(itemId)) Zotero.Items.erase([itemId], true);
   }
 
 };
