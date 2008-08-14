@@ -20,7 +20,7 @@
       <vbox>
         <label value="Show these BibTeX files"/>
         <hbox>
-          <listbox flex="1" rows="6" id="z2b-listbox"></listbox>
+          <listbox flex="1" rows="6" id="z2b-listbox"><listitem label=" "/></listbox>
           <vbox>
             <button id="z2b-move-up" label="Move up"/>
             <button id="z2b-move-down" label="Move down"/>
