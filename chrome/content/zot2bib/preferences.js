@@ -34,18 +34,19 @@ function listAction(e) {
       var si = listbox.selectedIndex;
       listbox.removeItemAt(si);
       bw.Zotero.Zot2Bib.removeDestFile(l);
-      if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(si, listbox.getRowCount() - 1));      
+      if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(si, listbox.getRowCount() - 1));
 
     } else if (e.target == upbtn || e.target == downbtn) {
       olditem = listbox.selectedItem;
       newitem = e.target == upbtn ? olditem.previousSibling : olditem.nextSibling;
       [olditem.label, newitem.label] = [newitem.label, olditem.label];
-    
+
    } else if (e.target == manydests && ! e.target.checked) {
       if (bw.Zotero.Zot2Bib.numDests() > 1) {
         e.target.checked = true;
-        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);        prompts.alert(null, "You cannot uncheck this option while multiple destination files are selected", "Ensure only one destination is selected using the Zot2Bib status bar menu, then try again.");
-      } 
+        var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+        prompts.alert(null, "You cannot uncheck this option while multiple destinations are selected", "Ensure only one destination is selected using the Zot2Bib status bar menu, then try again.");
+      }
     }
 
     if (newitem) {
@@ -67,7 +68,7 @@ function copyPrefsToList() {
 }
 
 function copyListToPrefs() {
-  var bw = wm.getMostRecentWindow("navigator:browser"); 
+  var bw = wm.getMostRecentWindow("navigator:browser");
   var a = new Array();
   var rc = listbox.getRowCount();
   for (var i = 0; i < rc; i ++) a.push(listbox.getItemAtIndex(i).label);

@@ -79,7 +79,7 @@ Zotero.Zot2Bib = {
 
   loadList: function(pref) {
     var s = this.prefs.getCharPref(pref);
-    if (s.length == 0) return []; // because, weirdly, splitting an empty string appears to produce an Array with one empty string element, rather than an empty Array
+    if (s.length == 0) return []; // weirdly, splitting an empty string appears to produce an Array with one empty string element, not an empty Array
     else {
       var a = s.split(',');
       for (var i = 0; i < a.length; i ++) a[i] = unescape(a[i]);
@@ -120,19 +120,35 @@ Zotero.Zot2Bib = {
           translator.setLocation(file);
 
           translator.setHandler('done', function() {
-	    for (var j = 0; j < destfiles.length; j ++) {
+            for (var j = 0; j < destfiles.length; j ++) {
               var args = [script_path, destfiles[j], file.path, openpub, bringtofront, extrabraces];
               process.run(true, args, args.length); // first param true => calling thread will be blocked until called process terminates
             }
-            if (! prefs.getBoolPref('keepinzotero')) Zotero.Items.erase([item.id], false); // second param true => delete item's children too
-            // TO DO: alert if no destinations set?
+            // if (! prefs.getBoolPref('keepinzotero')) Zotero.Items.erase([item.id], false); // second param true => delete item's children too
+            if (! prefs.getBoolPref('keepinzotero')) {
+              Zotero.Zot2Bib.deleteQueue.push(item.id);
+              setTimeout(Zotero.Zot2Bib.deleteNext, 5000);
+            }
+
+            if (Zotero.Zot2Bib.numDests() < 1) {
+              var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
+              prompts.alert(null, "No Zot2Bib destinations are selected", "New publications are therefore being discarded. Please select a destination using the Zot2Bib status bar menu, and try again.");
+            }
           });
           translator.translate();
         }
 
       }
     }
+  },
+
+  deleteQueue: [],
+  deleteNext: function () {
+    if (this.deleteQueue.length < 1) return;
+    var itemId = this.deleteQueue.shift();
+    if (itemId) Zotero.Items.erase([itemId], true); // && Zotero.Items.find... ?
   }
+
 };
 
 window.addEventListener('load', function(e) { Zotero.Zot2Bib.init(); }, false); // Initialize the utility
