@@ -130,7 +130,7 @@ Zotero.Zot2Bib = {
             // if (! prefs.getBoolPref('keepinzotero')) Zotero.Items.erase([item.id], false); // second param true => delete item's children too
             if (! prefs.getBoolPref('keepinzotero')) {
               Zotero.Zot2Bib.deleteQueue.push(item.id);
-              setTimeout(Zotero.Zot2Bib.deleteNext, 10000);
+              setTimeout(Zotero.Zot2Bib.deleteNext, 5000);
             }
           });
           translator.translate();
