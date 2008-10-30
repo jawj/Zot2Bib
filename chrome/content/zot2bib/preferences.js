@@ -1,11 +1,10 @@
-const nsIFilePicker = Components.interfaces.nsIFilePicker;
-var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
 
+Components.utils.import('resource://zot2bib/zot2bib.jsm');
+
+const nsIFilePicker = Components.interfaces.nsIFilePicker;
 var listbox, addbtn, removebtn, upbtn, downbtn, manydests;
 
 function listAction(e) {
-
-  var bw = wm.getMostRecentWindow("navigator:browser");
 
   if (e && e.type == 'command' ) {
 
@@ -33,7 +32,7 @@ function listAction(e) {
       var l = listbox.selectedItem.label;
       var si = listbox.selectedIndex;
       listbox.removeItemAt(si);
-      bw.Zotero.Zot2Bib.removeDestFile(l);
+      Zot2Bib.removeDestFile(l);
       if (listbox.getRowCount() > 0) newitem = listbox.getItemAtIndex(Math.min(si, listbox.getRowCount() - 1));
 
     } else if (e.target == upbtn || e.target == downbtn) {
@@ -42,7 +41,7 @@ function listAction(e) {
       [olditem.label, newitem.label] = [newitem.label, olditem.label];
 
    } else if (e.target == manydests && ! e.target.checked) {
-      if (bw.Zotero.Zot2Bib.numDests() > 1) {
+      if (Zot2Bib.numDests() > 1) {
         e.target.checked = true;
         var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"].getService(Components.interfaces.nsIPromptService);
         prompts.alert(null, "You cannot uncheck this option while multiple destinations are selected", "Ensure only one destination is selected using the Zot2Bib status bar menu, then try again.");
@@ -61,18 +60,16 @@ function listAction(e) {
 }
 
 function copyPrefsToList() {
-  var bw = wm.getMostRecentWindow("navigator:browser");
-  var a = bw.Zotero.Zot2Bib.loadList('bibfiles');
+  var a = Zot2Bib.loadList('bibfiles');
   while (listbox.getRowCount() > 0) listbox.removeItemAt(0);
   while (a.length) listbox.appendItem(a.shift());
 }
 
 function copyListToPrefs() {
-  var bw = wm.getMostRecentWindow("navigator:browser");
   var a = new Array();
   var rc = listbox.getRowCount();
   for (var i = 0; i < rc; i ++) a.push(listbox.getItemAtIndex(i).label);
-  bw.Zotero.Zot2Bib.saveList('bibfiles', a);
+  Zot2Bib.saveList('bibfiles', a);
 }
 
 function gebi(id) { return document.getElementById(id); }

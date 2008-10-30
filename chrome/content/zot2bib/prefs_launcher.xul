@@ -2,9 +2,8 @@
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script>
     // Done this way so we can't end up with 2 preferences boxes, one opened from the add-ons window and one from the extension itself
-    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-    var browserWindow = wm.getMostRecentWindow("navigator:browser");
-    browserWindow.Zotero.Zot2Bib.preferences();
+    Components.utils.import('resource://zot2bib/zot2bib.jsm');
+    Zot2Bib.preferences(window);
     close();
   </script>
 </window>
