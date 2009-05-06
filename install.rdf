@@ -10,7 +10,10 @@
     <em:creator>George MacKerron</em:creator>
     <em:type>2</em:type> <!-- type=extension -->
     <em:targetPlatform>Darwin</em:targetPlatform>
+    <!--
     <em:aboutURL>chrome://zot2bib/content/about_launcher.xul</em:aboutURL>
+    causes weirdness for unknown reasons, so disabled for now
+    -->
     <em:optionsURL>chrome://zot2bib/content/prefs_launcher.xul</em:optionsURL>
     <em:iconURL>chrome://zot2bib/skin/z2b_icon.png</em:iconURL>
     <em:homepageURL>http://mackerron.com/</em:homepageURL>
