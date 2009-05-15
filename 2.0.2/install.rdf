@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>zot2bib@mackerron.com</em:id>
+    <em:name>Zotero-to-BibDesk auto-import utility</em:name>
+    <em:version>2.0</em:version>
+    <em:description>Automatically imports new Zotero references into BibDesk files</em:description>
+    <em:creator>George MacKerron</em:creator>
+    <em:type>2</em:type> <!-- type=extension -->
+    <em:targetPlatform>Darwin</em:targetPlatform>
+    <!--
+    <em:aboutURL>chrome://zot2bib/content/about_launcher.xul</em:aboutURL>
+    causes weirdness for unknown reasons, so disabled for now
+    -->
+    <em:optionsURL>chrome://zot2bib/content/prefs_launcher.xul</em:optionsURL>
+    <em:iconURL>chrome://zot2bib/skin/z2b_icon.png</em:iconURL>
+    <em:homepageURL>http://mackerron.com/</em:homepageURL>
+    <!--
+    <em:updateURL>http://mackerron.com/zot2bib/update.rdf</em:updateURL>
+    <em:updateKey>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDalver8LmoS3vX9Y4ul54g+z3kzRIh7m7CqmCkDZisV5oi9+xd4p8XCEmmbTPksLvx881aAFdvTaYENcjbyQZ9oFdnLs25TQRA/dDrfPET64x6JS/UrY1lXfsETsgtGASN1orXeW/ohnRMjoaixjYMK+9Z1zJmeC+g1f3T9VyKIwIDAQAB</em:updateKey>
+    -->
+
+    <!-- Requires Zotero -->
+    <em:requires>
+      <Description>
+        <em:id>zotero@chnm.gmu.edu</em:id>
+        <em:name>Zotero</em:name>
+        <em:homepageURL>http://www.zotero.org</em:homepageURL>
+        <em:minVersion>1.0.0b4.r5</em:minVersion>
+        <em:maxVersion>2.*</em:maxVersion>
+      </Description>
+    </em:requires>
+
+    <!-- Requires Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>3.0</em:minVersion>
+        <em:maxVersion>3.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>
