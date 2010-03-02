@@ -27,7 +27,7 @@ var zoteroCallback = {
         file.append("zotero_item_" + item.id + ".bib");
         file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0666);
 
-        var script_path = own_path.path + '/zot2bib.scpt';
+        var script_path = own_path.path + '/zot2bib.applescript';
         var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
         osascript.initWithPath('/usr/bin/osascript');
         var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
