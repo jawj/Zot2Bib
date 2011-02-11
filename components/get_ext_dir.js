@@ -4,7 +4,7 @@ GetExtDir.prototype = {
   classDescription: "Extension directory component",
   classID:          Components.ID("{723079F5-F880-40BB-8283-8266DEA93960}"),
   contractID:       "@mackerron.com/getExtDir;1",
-  QueryInterface:   XPCOMUtils.generateQI([]),
+  QueryInterface:   XPCOMUtils.generateQI(),
   getExtDir:        function() {
     var componentFile = __LOCATION__;
     var componentsDir = componentFile.parent;
