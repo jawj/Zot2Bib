@@ -1,11 +1,11 @@
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
 function GetExtDir() { this.wrappedJSObject = this; }
 GetExtDir.prototype = {
-  classDescription: "Extension Directory Component",
+  classDescription: "Extension directory component",
   classID:          Components.ID("{723079F5-F880-40BB-8283-8266DEA93960}"),
-  contractID:       "@mackerron.com/get_ext_dir;1",
-  QueryInterface:   function() { return this; },
-  get_ext_dir:      function() {
+  contractID:       "@mackerron.com/getExtDir;1",
+  QueryInterface:   XPCOMUtils.generateQI([]),
+  getExtDir:        function() {
     var componentFile = __LOCATION__;
     var componentsDir = componentFile.parent;
     var extensionDir  = componentsDir.parent;
@@ -13,5 +13,5 @@ GetExtDir.prototype = {
   }
 };
 var components = [GetExtDir];
-function NSGetModule(compMgr, fileSpec) { return XPCOMUtils.generateModule(components); } // FF3
-const NSGetFactory = XPCOMUtils.generateNSGetFactory(components); // FF4
+if (XPCOMUtils.generateNSGetFactory) var NSGetFactory = XPCOMUtils.generateNSGetFactory(components); // FF4, Gecko 2
+else var NSGetModule = XPCOMUtils.generateNSGetModule(components); // FF3, Gecko 1.9

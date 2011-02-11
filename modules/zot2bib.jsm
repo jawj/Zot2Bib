@@ -1,7 +1,7 @@
 var EXPORTED_SYMBOLS = ['Zot2Bib'];
 
 var Zotero;
-var own_path = Components.classes["@mackerron.com/get_ext_dir;1"].createInstance().wrappedJSObject.get_ext_dir();
+var own_path = Components.classes["@mackerron.com/getExtDir;1"].createInstance().wrappedJSObject.getExtDir();
 var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.z2b.");
 var about_window_ref, prefs_window_ref, help_window_ref;
 
