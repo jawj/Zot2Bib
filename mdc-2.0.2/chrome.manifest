@@ -1,0 +1,9 @@
+content		zot2bib		chrome/content/zot2bib/
+locale		zot2bib		en				chrome/locale/en/zot2bib/
+skin			zot2bib		default		chrome/skin/default/zot2bib/
+resource  zot2bib   modules/
+
+component	{723079F5-F880-40BB-8283-8266DEA93960}	components/getExtDir.js
+contract	@mackerron.com/getExtDir;1							{723079F5-F880-40BB-8283-8266DEA93960}
+
+overlay		chrome://browser/content/browser.xul	chrome://zot2bib/content/overlay.xul
