@@ -1,5 +1,7 @@
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
-function GetExtDir() { this.wrappedJSObject = this; }
+function GetExtDir() { 
+  this.wrappedJSObject = this;
+}
 GetExtDir.prototype = {
   classDescription: "Extension directory component",
   classID:          Components.ID("{723079F5-F880-40BB-8283-8266DEA93960}"),
@@ -13,5 +15,7 @@ GetExtDir.prototype = {
   }
 };
 var components = [GetExtDir];
-if (XPCOMUtils.generateNSGetFactory) var NSGetFactory = XPCOMUtils.generateNSGetFactory(components); // FF4, Gecko 2
-else var NSGetModule = XPCOMUtils.generateNSGetModule(components); // FF3, Gecko 1.9
+if (XPCOMUtils.generateNSGetFactory) 
+  var NSGetFactory = XPCOMUtils.generateNSGetFactory(components); // FF4, Gecko 2
+else 
+  var NSGetModule = XPCOMUtils.generateNSGetModule(components); // FF3, Gecko 1.9
