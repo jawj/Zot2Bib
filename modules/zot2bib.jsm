@@ -58,11 +58,11 @@ var zoteroCallback = {
 
             // This seems like the right way to do this, but doesn't work!!
             // var timer = Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer);
-            //timer.initWithCallback(deleteCallback, 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+            // timer.initWithCallback(deleteCallback, 1000, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
 
             // This is messy, but seems to work
             var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"].getService(Components.interfaces.nsIWindowMediator);
-            wm.getMostRecentWindow("navigator:browser").setTimeout(deleteCallback.notify, 100);
+            wm.getMostRecentWindow("navigator:browser").setTimeout(deleteCallback.notify, 5000);
           }
         });
 
