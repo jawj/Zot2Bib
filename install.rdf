@@ -5,11 +5,12 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>zot2bib@mackerron.com</em:id>
     <em:name>Zotero-to-BibDesk auto-import utility</em:name>
-    <em:version>2.0.1</em:version>
+    <em:version>2.0.2</em:version>
     <em:description>Automatically imports new Zotero references into BibDesk files</em:description>
     <em:creator>George MacKerron</em:creator>
     <em:type>2</em:type> <!-- type=extension -->
     <em:targetPlatform>Darwin</em:targetPlatform>
+    <em:unpack>true</em:unpack> <!-- for AppleScript component -->
     <!--
     <em:aboutURL>chrome://zot2bib/content/about_launcher.xul</em:aboutURL>
     causes weirdness for unknown reasons, so disabled for now
@@ -38,7 +39,7 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>3.0</em:minVersion>
-        <em:maxVersion>3.6.*</em:maxVersion>
+        <em:maxVersion>4.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
