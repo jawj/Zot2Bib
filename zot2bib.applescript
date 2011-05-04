@@ -1,4 +1,4 @@
-on run arguments
+ï»¿on run arguments
 	set theDocFilePath to first item of arguments -- the references database .bib file, or empty to create a new one
 	set thePubFilePath to second item of arguments -- the new, temporary, single-reference .bib file
 	set doOpenPub to (third item of arguments is equal to "true")
@@ -6,7 +6,7 @@ on run arguments
 	set doAddbraces to (fifth item of arguments is equal to "true")
 	
 	set readFile to open for access POSIX file thePubFilePath
-	set pubData to read readFile as Çclass utf8È
+	set pubData to read readFile as Â«class utf8Â»
 	close access readFile
 	
 	if theDocFilePath is not equal to "" then set theDocFile to POSIX file theDocFilePath
