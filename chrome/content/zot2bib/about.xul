@@ -12,7 +12,7 @@
   </hbox>
   <description flex="1" style="text-align: center;">
     <h:h2>Zot2Bib</h:h2>
-    <h:p>Version 2.0.2</h:p>
+    <h:p>Version 2.0.3</h:p>
     <h:p><h:a target="_new" href="http://mackerron.com/" style="color: #0000ff;">http://mackerron.com/</h:a></h:p>
     <h:p>Copyright &#169; 2008 - 2011 George MacKerron<h:br/>All rights reserved</h:p>
   </description>
