@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <script>
-    // Done this way so we can't end up with 2 about boxes, one opened from the add-ons window and one from the extension itself
-    Components.utils.import('resource://zot2bib/zot2bib.jsm');
-    Zot2Bib.about(window);
-    close();
-  </script>
-</window>

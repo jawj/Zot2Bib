@@ -1,1 +1,0 @@
-zip -r -9 ../zot2bib.xpi * -x "*.DS_Store" "*.svn*" "packaging_command.txt"
