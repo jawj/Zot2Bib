@@ -6,4 +6,4 @@ resource  zot2bib   modules/
 component	{723079F5-F880-40BB-8283-8266DEA93960}	components/getExtDir.js
 contract	@mackerron.com/getExtDir;1							{723079F5-F880-40BB-8283-8266DEA93960}
 
-overlay		chrome://browser/content/browser.xul	chrome://zot2bib/content/overlay.xul
+overlay		chrome://zotero/content/zoteroPane.xul	chrome://zot2bib/content/overlay.xul

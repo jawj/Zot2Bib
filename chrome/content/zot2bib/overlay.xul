@@ -7,22 +7,10 @@
   <script src="chrome://zotero/content/include.js"/>
   <script src="chrome://zot2bib/content/include.js"/>
 
-  <statusbar id="status-bar">
-    <statusbarpanel
-        id="z2b-panel"
-        class="statusbarpanel-menu-iconic"
-        src="chrome://zot2bib/skin/z2b.png">
-      <menupopup id="z2b-menu" position="before_end" onpopupshowing="Zot2Bib.populateMenu(this);" onpopuphidden="Zot2Bib.saveMenuChoices(this);">
-        <menuitem id="z2b-menu-caption" label="Add new publications to..." disabled="true"/>
-        <menuitem id="z2b-add-zotero" label="Zotero" type="radio" name="z2b-destination" tooltiptext="Add to Zotero, as if this extension was not installed"/>
-        <menuitem id="z2b-add-empty" label="New BibTeX files" type="radio" name="z2b-destination" checked="true" tooltiptext="Create a new file in BibDesk for each publication"/>
-  <!-- BibTeX file menu items are added here, above the separator -->
-        <menuseparator/>
-        <menuitem id="z2b-about" label="About Zot2Bib" oncommand="Zot2Bib.about(window);"/>
-        <menuitem id="z2b-prefs" label="Preferences..." oncommand="Zot2Bib.preferences(window);"/>
-        <menuitem id="z2b-help" label="Help" oncommand="Zot2Bib.help(window);"/>
-      </menupopup>
-    </statusbarpanel>
-  </statusbar>
+  <hbox id="zotero-collections-toolbar">
+    <toolbarbutton id="zot2bib-button" class="zotero-tb-button" type="menu" insertafter="zotero-tb-actions-menu">
+      <menupopup id="z2b-menu" onpopupshowing="Zot2Bib.populateMenu(this);" onpopuphidden="Zot2Bib.saveMenuChoices(this);" />
+    </toolbarbutton>
+  </hbox>
 
 </overlay>

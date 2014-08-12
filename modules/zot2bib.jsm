@@ -91,42 +91,58 @@ Zot2Bib = {
     if (! help_window_ref || help_window_ref.closed) help_window_ref = w.open("chrome://zot2bib/content/help.html");
     else help_window_ref.focus();
   },
-  populateMenu: function(m) {
-    var a = Zot2Bib.loadList('bibfiles');
-    for (var i = m.childNodes.length - 1; i >= 0; i --) {
-      var mi = m.childNodes[i];
-      if (mi.id == 'z2b-add-zotero' || mi.id == 'z2b-add-empty') mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
-      if (mi.id == 'z2b-add-zotero') {
-        if (prefs.getBoolPref('keepinzotero')) mi.setAttribute('checked', true);
-        else mi.removeAttribute('checked');
-      }
-      if (mi.id == 'z2b-add-empty') {
-        if (prefs.getBoolPref('addtoempty')) mi.setAttribute('checked', true);
-        else mi.removeAttribute('checked');
-      }
-      if (mi.id.match(/^z2b-bibfile-[0-9]+$/)) m.removeChild(mi);
-    }
-    var ms = m.getElementsByTagName('menuseparator')[0];
+  populateMenu: function(menu) {
+    
+    var doc = menu.ownerDocument;
+    var menuitemtype = prefs.getBoolPref('manydests') ? 'checkbox' : 'radio';
     var destfiles = Zot2Bib.loadList('destfiles');
-    for (i = 0; i < a.length; i ++) {
-      mi = m.ownerDocument.createElement('menuitem');
-      mi.id = 'z2b-bibfile-' + i;
-      mi.setAttribute('label', a[i].substr(a[i].lastIndexOf('/') + 1));
-      mi.setAttribute('type', prefs.getBoolPref('manydests') ? 'checkbox' : 'radio');
-      mi.setAttribute('name', 'z2b-destination');
-      mi.setAttribute('crop', 'center');
-      mi.setAttribute('tooltiptext', a[i]);
-      mi.setAttribute('value', a[i]);
-      for (var j = 0; j < destfiles.length; j ++) if (a[i] == destfiles[j]) mi.setAttribute('checked', true);
-      m.insertBefore(mi, ms);
+    var bibfiles = Zot2Bib.loadList('bibfiles');
+
+    var addMenuItem = function(props, attrs) {
+      var item = doc.createElement('menuitem');
+      for (prop in props) { if (! props.hasOwnProperty(prop)) continue; item[prop] = props[prop]; }
+      for (attr in attrs) { if (! attrs.hasOwnProperty(attr)) continue; item.setAttribute(attr, attrs[attr]); }
+      menu.appendChild(item);
     }
+    while (menu.firstChild) menu.removeChild(menu.firstChild);
+
+    addMenuItem({}, {label: 'Add new publications to...', disabled: 'true'});
+
+    var attrs;
+
+    attrs = {label: 'Zotero', type: menuitemtype, name: 'z2b-destination', tooltiptext: 'Add to Zotero, as if this extension was not installed'}
+    if (prefs.getBoolPref('keepinzotero')) attrs.checked = 'true';
+    addMenuItem({id: 'z2b-add-zotero'}, attrs);
+
+    attrs = {label: 'New BibTeX files', type: menuitemtype, name: 'z2b-destination', tooltiptext: 'Create a new file in BibDesk for each publication'};
+    if (prefs.getBoolPref('addtoempty')) attrs.checked = 'true';
+    addMenuItem({id: 'z2b-add-empty'}, attrs);
+
+    for (var i = 0; i < bibfiles.length; i ++) {
+      var bibfile = bibfiles[i];
+      attrs = {label: bibfile.substr(bibfile.lastIndexOf('/') + 1), type: menuitemtype, name: 'z2b-destination', crop: 'center', tooltiptext: bibfile, value: bibfile};
+      for (var j = 0; j < destfiles.length; j ++) if (bibfile == destfiles[j]) attrs.checked = 'true';
+      addMenuItem({id: 'z2b-bibfile-' + i}, attrs);
+    }
+
+    menu.appendChild(doc.createElement('menuseparator'));
+    addMenuItem({}, {label: 'About Zot2Bib', oncommand: 'Zot2Bib.about(window);'});
+    addMenuItem({}, {label: 'Preferences...', oncommand: 'Zot2Bib.preferences(window);'});
+    addMenuItem({}, {label: 'Help', oncommand: 'Zot2Bib.help(window);'});
   },
   saveMenuChoices: function(m) {
+    Zotero.log('saveMenuChoices');
     var a = [];
     for (var i = 0; i < m.childNodes.length; i ++) {
       var mi = m.childNodes[i];
-      if (mi.id == 'z2b-add-zotero') prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
-      else if (mi.id == 'z2b-add-empty') prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
+      if (mi.id == 'z2b-add-zotero') {
+        prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
+        Zotero.log('keepinzotero ' + prefs.getBoolPref('keepinzotero'));
+      }
+      else if (mi.id == 'z2b-add-empty') {
+        prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
+        Zotero.log('addtoempty ' + prefs.getBoolPref('addtoempty'));
+      }
       else if (mi.id.match(/^z2b-bibfile-[0-9]+$/) && mi.hasAttribute('checked')) a.push(mi.getAttribute('value'));
     }
     Zot2Bib.saveList('destfiles', a);
