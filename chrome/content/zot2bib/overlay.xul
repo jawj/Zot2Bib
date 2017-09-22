@@ -8,7 +8,7 @@
   <script src="chrome://zot2bib/content/include.js"/>
 
   <hbox id="zotero-collections-toolbar">
-    <toolbarbutton id="zot2bib-button" class="zotero-tb-button" type="menu" insertafter="zotero-tb-actions-menu">
+    <toolbarbutton id="zot2bib-button" class="zotero-tb-button" type="menu" tooltiptext="Zot2Bib" insertafter="zotero-tb-actions-menu">
       <menupopup id="z2b-menu" onpopupshowing="Zot2Bib.populateMenu(this);" onpopuphidden="Zot2Bib.saveMenuChoices(this);" />
     </toolbarbutton>
   </hbox>

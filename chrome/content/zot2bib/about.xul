@@ -2,6 +2,7 @@
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
 
 <window id="z2b-about"
+    title="About Zot2Bib"
     xmlns:h="http://www.w3.org/1999/xhtml"
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
     align="center"
@@ -12,9 +13,9 @@
   </hbox>
   <description flex="1" style="text-align: center;">
     <h:h2>Zot2Bib</h:h2>
-    <h:p>Version 2.0.6</h:p>
+    <h:p>Version 2.0.7</h:p>
     <h:p><h:a target="_new" href="http://mackerron.com/zot2bib/" style="color: #0000ff;">http://mackerron.com/zot2bib/</h:a></h:p>
-    <h:p>Copyright &#169; 2008 - 2014 George MacKerron<h:br/>All rights reserved</h:p>
+    <h:p>Copyright &#169; 2008 - 2017 George MacKerron<h:br/>All rights reserved</h:p>
   </description>
 
 </window>

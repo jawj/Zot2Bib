@@ -10,7 +10,7 @@ var deleteCallback = {
   notify: function(t) {
     if (deleteQueue.length < 1) return;
     var itemId = deleteQueue.shift();
-    if (itemId && Zotero.Items.get(itemId)) Zotero.Items.erase([itemId], true);
+    if (itemId && Zotero.Items.get(itemId)) Zotero.Items.erase([itemId], {deleteItems: true});
   }
 }
 
@@ -88,8 +88,13 @@ Zot2Bib = {
     else prefs_window_ref.focus();
   },
   help: function(w) {
-    if (! help_window_ref || help_window_ref.closed) help_window_ref = w.open("chrome://zot2bib/content/help.html");
-    else help_window_ref.focus();
+    var script_path = own_path.path + '/chrome/content/zot2bib/help.html';
+    var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+    osascript.initWithPath('/usr/bin/open');
+    var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
+    process.init(osascript);
+    var args = [script_path];
+    process.run(false, args, args.length);
   },
   populateMenu: function(menu) {
     
