@@ -25,10 +25,10 @@ var zoteroCallback = {
 
         var file = Components.classes["@mozilla.org/file/directory_service;1"].getService(Components.interfaces.nsIProperties).get("TmpD", Components.interfaces.nsIFile);
         file.append("zotero_item_" + item.id + ".bib");
-        file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0666);
+        file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0o666);
 
         var script_path = own_path.path + '/zot2bib.applescript';
-        var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+        var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
         osascript.initWithPath('/usr/bin/osascript');
         var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
         process.init(osascript);
@@ -72,7 +72,7 @@ var zoteroCallback = {
   }
 }
 
-Zot2Bib = {
+var Zot2Bib = {
   initOnce: function(z) {
     if (! Zotero) {
       Zotero = z;
@@ -80,16 +80,16 @@ Zot2Bib = {
     }
   },
   about: function(w) {
-    if (! about_window_ref || about_window_ref.closed) about_window_ref = w.open("chrome://zot2bib/content/about.xul", "", "centerscreen,chrome,dialog");
+    if (! about_window_ref || about_window_ref.closed) about_window_ref = w.openDialog("chrome://zot2bib/content/about.xul", "", "centerscreen");
     else about_window_ref.focus();
   },
   preferences: function(w) {
-    if (! prefs_window_ref || prefs_window_ref.closed) prefs_window_ref = w.open("chrome://zot2bib/content/preferences.xul", "", "centerscreen,chrome,dialog,resizable");
+    if (! prefs_window_ref || prefs_window_ref.closed) prefs_window_ref = w.openDialog("chrome://zot2bib/content/preferences.xul", "", "centerscreen,resizable");
     else prefs_window_ref.focus();
   },
   help: function(w) {
     var script_path = own_path.path + '/chrome/content/zot2bib/help.html';
-    var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
+    var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
     osascript.initWithPath('/usr/bin/open');
     var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
     process.init(osascript);
@@ -105,8 +105,14 @@ Zot2Bib = {
 
     var addMenuItem = function(props, attrs) {
       var item = doc.createElement('menuitem');
-      for (prop in props) { if (! props.hasOwnProperty(prop)) continue; item[prop] = props[prop]; }
-      for (attr in attrs) { if (! attrs.hasOwnProperty(attr)) continue; item.setAttribute(attr, attrs[attr]); }
+      for (var prop in props) { 
+        if (! props.hasOwnProperty(prop)) continue; 
+        item[prop] = props[prop]; 
+      }
+      for (var attr in attrs) { 
+        if (! attrs.hasOwnProperty(attr)) continue; 
+        item.setAttribute(attr, attrs[attr]); 
+      }
       menu.appendChild(item);
     }
     while (menu.firstChild) menu.removeChild(menu.firstChild);
@@ -114,8 +120,8 @@ Zot2Bib = {
     addMenuItem({}, {label: 'Add new publications to...', disabled: 'true'});
 
     var attrs;
-
-    attrs = {label: 'Zotero', type: menuitemtype, name: 'z2b-destination', tooltiptext: 'Add to Zotero, as if this extension was not installed'}
+    
+    attrs = {label: 'Zotero', type: menuitemtype, name: 'z2b-destination', tooltiptext: 'Add to Zotero, as if this extension was not installed'};
     if (prefs.getBoolPref('keepinzotero')) attrs.checked = 'true';
     addMenuItem({id: 'z2b-add-zotero'}, attrs);
 

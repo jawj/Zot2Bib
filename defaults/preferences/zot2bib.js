@@ -1,3 +1,4 @@
+
 pref("extensions.z2b.keepinzotero", true);
 pref("extensions.z2b.addtoempty", false);
 pref("extensions.z2b.bibfiles", "");

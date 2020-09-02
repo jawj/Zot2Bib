@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://global/skin/global.css"?>
+<?xml-stylesheet href="chrome://zotero-platform/content/preferences.css"?>
+
+<!DOCTYPE prefwindow SYSTEM "chrome://zotero/locale/preferences.dtd">
 
 <prefwindow
     type="prefwindow"
@@ -35,12 +38,12 @@
     </groupbox>
     <groupbox>
       <caption label="When adding a publication to BibDesk..."/>
-        <checkbox preference="z2b-pref-extra-braces" label="Add extra braces around its Title field (preserves capitalisation in TeX)"/>
-        <checkbox preference="z2b-pref-open-pub" label="Open it for editing in BibDesk"/>
-        <checkbox preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
+      <checkbox preference="z2b-pref-extra-braces" label="Add extra braces around its Title field (preserves capitalisation in TeX)"/>
+      <checkbox preference="z2b-pref-open-pub" label="Open it for editing in BibDesk"/>
+      <checkbox preference="z2b-pref-bring-to-front" label="Bring BibDesk to front"/>
     </groupbox>
   </prefpane>
 
-  <script src="preferences.js"/>
+  <script src="preferences.js"></script>
 
 </prefwindow>

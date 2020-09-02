@@ -14,19 +14,20 @@ function listAction(e) {
       var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
       fp.init(window, "Choose BibTeX file", nsIFilePicker.modeOpen);
       fp.appendFilter("BibTeX", "*.bib");
-      var rv = fp.show();
-      if (rv == nsIFilePicker.returnOK) {
-        var path = fp.file.path;
-        var rc = listbox.getRowCount()
-        for (var i = 0; i < rc; i ++) {
-          olditem = listbox.getItemAtIndex(i);
-          if (olditem.label == path) {
-            newitem = olditem;
-            break;
+      fp.open(function (rv) { 
+        if (rv == nsIFilePicker.returnOK) {
+          var path = fp.file.path;
+          var rc = listbox.getRowCount()
+          for (var i = 0; i < rc; i++) {
+            olditem = listbox.getItemAtIndex(i);
+            if (olditem.label == path) {
+              newitem = olditem;
+              break;
+            }
           }
+          if (!newitem) newitem = listbox.appendItem(path);
         }
-        if (! newitem) newitem = listbox.appendItem(path);
-      }
+      });
 
     } else if (e.target == removebtn) {
       var l = listbox.selectedItem.label;
