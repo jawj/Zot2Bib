@@ -1,7 +1,10 @@
+
+Components.utils.import("resource://gre/modules/osfile.jsm")
+Components.utils.import("resource://gre/modules/AddonManager.jsm");
+
 var EXPORTED_SYMBOLS = ['Zot2Bib'];
 
 var Zotero;
-var own_path = Components.classes["@mackerron.com/getExtDir;1"].createInstance().wrappedJSObject.getExtDir();
 var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.z2b.");
 var about_window_ref, prefs_window_ref, help_window_ref;
 
@@ -14,10 +17,34 @@ var deleteCallback = {
   }
 }
 
+async function extractResource(resource) {
+  return new Promise(function (resolve) {
+    AddonManager.getAddonByID("zot2bib@mackerron.com", async function (addon) {
+      const scriptURI = addon.getResourceURI(resource);
+      const url = scriptURI.spec;
+      // Zotero.log('Resource in bundle: ' + url);
+
+      const tmpDir = OS.Path.join(Zotero.getTempDirectory().path, 'Zot2Bib')
+      await OS.File.makeDir(tmpDir);
+      
+      const filename = url.match(/\/([^\/]+)$/)[1];
+      const path = OS.Path.join(tmpDir, filename);
+      // Zotero.log('Resource will be copied to tmp dir: ' + path);
+      
+      await Zotero.File.download(url, path);
+      // Zotero.log('Resource copied');
+
+      resolve(path);
+    });
+  });
+}
+
 var zoteroCallback = {
-  notify: function(event, type, ids, extraData) {
+  notify: async function(event, type, ids, extraData) {
     if (event == 'add') {
       var items = Zotero.Items.get(ids);
+      var script_path = await extractResource('zot2bib.applescript');
+      // Zotero.log('AppleScript: ' + script_path);
 
       for (var i = 0; i < items.length; i ++) {
         var item = items[i];
@@ -27,7 +54,6 @@ var zoteroCallback = {
         file.append("zotero_item_" + item.id + ".bib");
         file.createUnique(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 0o666);
 
-        var script_path = own_path.path + '/zot2bib.applescript';
         var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
         osascript.initWithPath('/usr/bin/osascript');
         var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
@@ -87,8 +113,20 @@ var Zot2Bib = {
     if (! prefs_window_ref || prefs_window_ref.closed) prefs_window_ref = w.openDialog("chrome://zot2bib/content/preferences.xul", "", "centerscreen,resizable");
     else prefs_window_ref.focus();
   },
-  help: function(w) {
-    var script_path = own_path.path + '/chrome/content/zot2bib/help.html';
+  help: async function(w) {
+    await Promise.all([
+      'zotero-icon.png',
+      'em_obf_a_dark.png',
+      'em_obf_a_light.png',
+      'em_obf_d_dark.png',
+      'em_obf_d_light.png',
+      'z2b-menu-2.png',
+      'z2b-menu-3.png',
+      'z2b-menu.png',
+      'z2b-prefs.png',
+    ].map(function (r) { return extractResource('chrome/content/zot2bib/help_resources/' + r) }));
+
+    var script_path = await extractResource('chrome/content/zot2bib/help.html');
     var osascript = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsIFile);
     osascript.initWithPath('/usr/bin/open');
     var process = Components.classes["@mozilla.org/process/util;1"].createInstance(Components.interfaces.nsIProcess);
@@ -142,17 +180,17 @@ var Zot2Bib = {
     addMenuItem({}, {label: 'Help', oncommand: 'Zot2Bib.help(window);'});
   },
   saveMenuChoices: function(m) {
-    Zotero.log('saveMenuChoices');
+    // Zotero.log('saveMenuChoices');
     var a = [];
     for (var i = 0; i < m.childNodes.length; i ++) {
       var mi = m.childNodes[i];
       if (mi.id == 'z2b-add-zotero') {
         prefs.setBoolPref('keepinzotero', mi.hasAttribute('checked'));
-        Zotero.log('keepinzotero ' + prefs.getBoolPref('keepinzotero'));
+        // Zotero.log('keepinzotero ' + prefs.getBoolPref('keepinzotero'));
       }
       else if (mi.id == 'z2b-add-empty') {
         prefs.setBoolPref('addtoempty', mi.hasAttribute('checked'));
-        Zotero.log('addtoempty ' + prefs.getBoolPref('addtoempty'));
+        // Zotero.log('addtoempty ' + prefs.getBoolPref('addtoempty'));
       }
       else if (mi.id.match(/^z2b-bibfile-[0-9]+$/) && mi.hasAttribute('checked')) a.push(mi.getAttribute('value'));
     }
